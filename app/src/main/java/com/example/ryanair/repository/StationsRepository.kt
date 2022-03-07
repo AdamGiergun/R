@@ -1,0 +1,18 @@
+package com.example.ryanair.repository
+
+import com.example.ryanair.db.Station
+import com.example.ryanair.network.RyanairApi
+import com.example.ryanair.network.asDbModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+class StationsRepository {
+
+    lateinit var stations: List<Station>
+
+    suspend fun refreshStations() {
+        withContext(Dispatchers.IO) {
+            stations = RyanairApi.retrofitStationsApiService.getAirports().asDbModel()
+        }
+    }
+}
