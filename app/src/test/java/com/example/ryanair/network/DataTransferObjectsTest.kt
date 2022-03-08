@@ -30,7 +30,7 @@ class DataTransferObjectsTest {
     }
 
     @Test
-    fun `convert sample stations json file to Station list`() = runTest {
+    fun `convert sample stations json file to stations list`() = runTest {
         val reader = MockResponseFileReader("stations.json")
         val moshi: Moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(StationsContainer::class.java)
