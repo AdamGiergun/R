@@ -17,13 +17,13 @@ class MainViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            stationsRepository.refreshStations()
+            var newText = ""
+            stationsRepository.refreshStations()?.let { newText = it }
             _text.value = stationsRepository.run {
-                var result = ""
                 this.stations.forEach { station ->
-                    result += "${station.code}\n"
+                    newText += "${station.code}\n"
                 }
-                result
+                newText
             }
         }
     }

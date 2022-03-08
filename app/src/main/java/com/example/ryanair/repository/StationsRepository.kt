@@ -10,9 +10,17 @@ class StationsRepository {
 
     lateinit var stations: List<Station>
 
-    suspend fun refreshStations() {
+    suspend fun refreshStations(): String? {
+        var message: String?
         withContext(Dispatchers.IO) {
-            stations = RyanairApi.retrofitStationsApiService.getAirports().asDbModel()
+            try {
+                stations = RyanairApi.retrofitStationsApiService.getAirports().asDbModel()
+                message = null
+            } catch (e: Exception) {
+                stations = emptyList()
+                message = e.localizedMessage
+            }
         }
+        return message
     }
 }
