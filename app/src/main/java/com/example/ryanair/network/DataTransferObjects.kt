@@ -1,9 +1,3 @@
-/**
- * Big thanks to Filipe Bezerra for getting the idea of parsing nested JSON objects with Moshi
- * https://github.com/filipebezerra/near-earth-asteroids-app-android-kotlin
- * /blob/main/app/src/main/java/dev/filipebezerra/android/nearearthasteroids/datasource/remote/DataTransferObjects.kt
- */
-
 package com.example.ryanair.network
 
 import com.example.ryanair.db.Market
@@ -48,34 +42,108 @@ fun StationsContainer.asDbModel(): List<Station> {
         dbStations.add(
             Station(
                 stationJson.code,
-                            stationJson.name,
-            stationJson.alternateName,
-            stationJson.alias,
-            stationJson.countryCode,
-            stationJson.countryName,
-            stationJson.countryAlias,
-            stationJson.countryGroupCode,
-            stationJson.countryGroupName,
-            stationJson.timeZoneCode,
-            stationJson.latitude,
-            stationJson.longitude,
-            stationJson.mobileBoardingPass,
-            stationJson.markets.run {
-                val markets = mutableListOf<Market>()
-                forEach { marketJson ->
-                    markets.add(
-                        Market(
-                            marketJson.code,
-                            marketJson.group
+                stationJson.name,
+                stationJson.alternateName,
+                stationJson.alias,
+                stationJson.countryCode,
+                stationJson.countryName,
+                stationJson.countryAlias,
+                stationJson.countryGroupCode,
+                stationJson.countryGroupName,
+                stationJson.timeZoneCode,
+                stationJson.latitude,
+                stationJson.longitude,
+                stationJson.mobileBoardingPass,
+                stationJson.markets.run {
+                    val markets = mutableListOf<Market>()
+                    forEach { marketJson ->
+                        markets.add(
+                            Market(
+                                marketJson.code,
+                                marketJson.group
+                            )
                         )
-                    )
-                }
-                markets
-            },
-            stationJson.notices,
-            stationJson.tripCardImageUrl
+                    }
+                    markets
+                },
+                stationJson.notices,
+                stationJson.tripCardImageUrl
             )
         )
     }
     return dbStations
+}
+
+@JsonClass(generateAdapter = true)
+data class RouteJson(
+    val termsOfUse: String,
+    val currency: String,
+    val currPrecision: Int,
+    val routeGroup: String,
+    val tripType: String,
+    val upgradeType: String,
+    val trips: List<Trip>,
+    val serverTimeUTC: String
+) {
+    @JsonClass(generateAdapter = true)
+    data class Trip(
+        val origin: String,
+        val originName: String,
+        val destination: String,
+        val destinationName: String,
+        val routeGroup: String,
+        val tripType: String,
+        val upgradeType: String,
+        val dates: List<Date>
+    ) {
+        @JsonClass(generateAdapter = true)
+        data class Date(
+            val dateOut: String,
+            val flights: List<Flight>
+        ) {
+            @JsonClass(generateAdapter = true)
+            data class Flight(
+                val faresLeft: Int,
+                val flightKey: String,
+                val infantsLeft: Int,
+                val regularFare: RegularFare,
+                val operatedBy: String,
+                val segments: List<Segment>,
+                val time: List<String>,
+                val timeUTC: List<String>,
+                val duration: String
+            ) {
+                @JsonClass(generateAdapter = true)
+                data class RegularFare(
+                    val fareKey: String,
+                    val fareClass: String,
+                    val fares: List<Fare>
+                ) {
+                    @JsonClass(generateAdapter = true)
+                    data class Fare(
+                        val type: String,
+                        val amount: Int,
+                        val count: Int,
+                        val hasDiscount: Boolean,
+                        val publishedFare: Int,
+                        val discountInPercent: Int,
+                        val hasPromoDiscount: Boolean,
+                        val discountAmount: Int,
+                        val hasBogof: Boolean
+                    )
+                }
+
+                @JsonClass(generateAdapter = true)
+                data class Segment(
+                    val segmentNr: Int,
+                    val origin: String,
+                    val destination: String,
+                    val flightNumber: String,
+                    val time: List<String>,
+                    val timeUTC: List<String>,
+                    val duration: String
+                )
+            }
+        }
+    }
 }
