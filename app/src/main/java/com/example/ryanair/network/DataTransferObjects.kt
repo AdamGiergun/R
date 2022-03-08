@@ -1,7 +1,6 @@
 package com.example.ryanair.network
 
-import com.example.ryanair.db.Market
-import com.example.ryanair.db.Station
+import com.example.ryanair.db.*
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
@@ -82,11 +81,11 @@ data class RouteJson(
     val routeGroup: String,
     val tripType: String,
     val upgradeType: String,
-    val trips: List<Trip>,
+    val trips: List<TripJson>,
     val serverTimeUTC: String
 ) {
     @JsonClass(generateAdapter = true)
-    data class Trip(
+    data class TripJson(
         val origin: String,
         val originName: String,
         val destination: String,
@@ -94,33 +93,34 @@ data class RouteJson(
         val routeGroup: String,
         val tripType: String,
         val upgradeType: String,
-        val dates: List<Date>
+        val dates: List<DateJson>
     ) {
         @JsonClass(generateAdapter = true)
-        data class Date(
+        data class DateJson(
             val dateOut: String,
-            val flights: List<Flight>
+            val flights: List<FlightJson>
         ) {
             @JsonClass(generateAdapter = true)
-            data class Flight(
+            data class FlightJson(
                 val faresLeft: Int,
                 val flightKey: String,
                 val infantsLeft: Int,
-                val regularFare: RegularFare,
+                val regularFare: RegularFareJson,
                 val operatedBy: String,
-                val segments: List<Segment>,
+                val segments: List<SegmentJson>,
+                val flightNumber: String,
                 val time: List<String>,
                 val timeUTC: List<String>,
                 val duration: String
             ) {
                 @JsonClass(generateAdapter = true)
-                data class RegularFare(
+                data class RegularFareJson(
                     val fareKey: String,
                     val fareClass: String,
-                    val fares: List<Fare>
+                    val fares: List<FareJson>
                 ) {
                     @JsonClass(generateAdapter = true)
-                    data class Fare(
+                    data class FareJson(
                         val type: String,
                         val amount: Int,
                         val count: Int,
@@ -134,7 +134,7 @@ data class RouteJson(
                 }
 
                 @JsonClass(generateAdapter = true)
-                data class Segment(
+                data class SegmentJson(
                     val segmentNr: Int,
                     val origin: String,
                     val destination: String,
@@ -147,3 +147,69 @@ data class RouteJson(
         }
     }
 }
+
+fun RouteJson.asDbModel(): Route = Route(
+    termsOfUse,
+    currency,
+    currPrecision,
+    routeGroup,
+    tripType,
+    upgradeType,
+    trips.map { tripJson ->
+        Trip(
+            tripJson.origin,
+            tripJson.originName,
+            tripJson.destination,
+            tripJson.destinationName,
+            tripJson.routeGroup,
+            tripJson.tripType,
+            tripJson.upgradeType,
+            tripJson.dates.map { dateJson ->
+                Date(
+                    dateJson.dateOut,
+                    dateJson.flights.map { flightJson ->
+                        Flight(
+                            flightJson.faresLeft,
+                            flightJson.flightKey,
+                            flightJson.infantsLeft,
+                            RegularFare(
+                                flightJson.regularFare.fareKey,
+                                flightJson.regularFare.fareClass,
+                                flightJson.regularFare.fares.map { fareJson ->
+                                    Fare(
+                                        fareJson.type,
+                                        fareJson.amount,
+                                        fareJson.count,
+                                        fareJson.hasDiscount,
+                                        fareJson.publishedFare,
+                                        fareJson.discountInPercent,
+                                        fareJson.hasPromoDiscount,
+                                        fareJson.discountAmount,
+                                        fareJson.hasBogof
+                                    )
+                                }
+                            ),
+                            flightJson.operatedBy,
+                            flightJson.segments.map { segmentJson ->
+                                Segment(
+                                    segmentJson.segmentNr,
+                                segmentJson.origin,
+                                segmentJson.destination,
+                                segmentJson.flightNumber,
+                                segmentJson.time,
+                                segmentJson.timeUTC,
+                                segmentJson.duration
+                                )
+                            },
+                            flightJson.flightNumber,
+                            flightJson.time,
+                            flightJson.timeUTC,
+                            flightJson.duration
+                        )
+                    }
+                )
+            }
+        )
+    },
+    serverTimeUTC
+)
