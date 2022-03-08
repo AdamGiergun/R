@@ -55,4 +55,14 @@ class DataTransferObjectsTest {
         assertThat(route, `is`(notNullValue()))
         assertThat(route?.termsOfUse, `is`("https://www.ryanair.com/ie/en/corporate/terms-of-use=AGREED"))
     }
+
+    @Test
+    fun `convert sample route json file to Route`() {
+        val reader = MockResponseFileReader("route.json")
+        val moshi: Moshi = Moshi.Builder().build()
+        val adapter = moshi.adapter(RouteJson::class.java)
+        val route = adapter.fromJson(reader.content)?.asDbModel()
+        assertThat(route, `is`(notNullValue()))
+        assertThat(route?.termsOfUse ?: "", `is`("https://www.ryanair.com/ie/en/corporate/terms-of-use=AGREED"))
+    }
 }
