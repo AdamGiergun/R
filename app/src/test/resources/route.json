@@ -1,0 +1,77 @@
+{
+  "termsOfUse": "https://www.ryanair.com/ie/en/corporate/terms-of-use=AGREED",
+  "currency": "PLN",
+  "currPrecision": 2,
+  "routeGroup": "ETHNIC",
+  "tripType": "OTHER",
+  "upgradeType": "PLUS",
+  "trips": [
+    {
+      "origin": "WRO",
+      "originName": "Wroclaw",
+      "destination": "DUB",
+      "destinationName": "Dublin ",
+      "routeGroup": "ETHNIC",
+      "tripType": "OTHER",
+      "upgradeType": "PLUS",
+      "dates": [
+        {
+          "dateOut": "2021-12-30T00:00:00.000",
+          "flights": [
+            {
+              "faresLeft": -1,
+              "flightKey": "FR~1927~ ~~WRO~12/30/2021 16:55~DUB~12/30/2021 18:45~~",
+              "infantsLeft": 18,
+              "regularFare": {
+                "fareKey": "J2DVNRAALWIZPCYFYLGLZ27WVZO...",
+                "fareClass": "H",
+                "fares": [
+                  {
+                    "type": "ADT",
+                    "amount": 290,
+                    "count": 1,
+                    "hasDiscount": false,
+                    "publishedFare": 290,
+                    "discountInPercent": 0,
+                    "hasPromoDiscount": false,
+                    "discountAmount": 0,
+                    "hasBogof": false
+                  }
+                ]
+              },
+              "operatedBy": "Buzz",
+              "segments": [
+                {
+                  "segmentNr": 0,
+                  "origin": "WRO",
+                  "destination": "DUB",
+                  "flightNumber": "FR 1927",
+                  "time": [
+                    "2021-12-30T16:55:00.000",
+                    "2021-12-30T18:45:00.000"
+                  ],
+                  "timeUTC": [
+                    "2021-12-30T15:55:00.000Z",
+                    "2021-12-30T18:45:00.000Z"
+                  ],
+                  "duration": "02:50"
+                }
+              ],
+              "flightNumber": "FR 1927",
+              "time": [
+                "2021-12-30T16:55:00.000",
+                "2021-12-30T18:45:00.000"
+              ],
+              "timeUTC": [
+                "2021-12-30T15:55:00.000Z",
+                "2021-12-30T18:45:00.000Z"
+              ],
+              "duration": "02:50"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "serverTimeUTC": "2021-03-29T13:14:16.627Z"
+}
