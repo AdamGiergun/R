@@ -1,0 +1,29 @@
+{
+  "stations": [
+    {
+      "code": "AAL",
+      "name": "Aalborg",
+      "alternateName": null,
+      "alias": [
+        "aalborg"
+      ],
+      "countryCode": "DK",
+      "countryName": "Denmark",
+      "countryAlias": null,
+      "countryGroupCode": "0",
+      "countryGroupName": "EU/EEA",
+      "timeZoneCode": "DK",
+      "latitude": "570535N",
+      "longitude": "0095100E",
+      "mobileBoardingPass": true,
+      "markets": [
+        {
+          "code": "STN",
+          "group": null
+        }
+      ],
+      "notices": null,
+      "tripCardImageUrl": "https://assets.ryanair.com/resources/ui/mobile/stations/AAL_v2.png"
+    }
+  ]
+}
