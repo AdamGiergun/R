@@ -23,7 +23,7 @@ class MainViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             var newText = ""
-            stationsRepository.refreshStations()?.let { newText = it }
+            stationsRepository.refresh()?.let { newText = it }
             _text.value = stationsRepository.run {
                 _stations.value = stations
                 stations.forEach { station ->

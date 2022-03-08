@@ -10,7 +10,7 @@ class StationsRepository {
 
     lateinit var stations: List<Station>
 
-    suspend fun refreshStations(): String? {
+    suspend fun refresh(): String? {
         var message: String?
         withContext(Dispatchers.IO) {
             try {
