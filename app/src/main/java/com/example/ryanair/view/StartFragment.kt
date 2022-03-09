@@ -33,7 +33,7 @@ class StartFragment : Fragment() {
                 }
             }
             retryButton.setOnClickListener {
-                mainViewModel.initData()
+                mainViewModel.initStations()
                 loadingImg.visibility = View.VISIBLE
                 errorInfo.visibility = View.GONE
                 retryButton.visibility = View.GONE

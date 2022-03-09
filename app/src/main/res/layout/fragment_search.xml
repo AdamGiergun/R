@@ -16,6 +16,23 @@
         tools:context=".view.SearchFragment">
 
         <TextView
+            android:id="@+id/from"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/from"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/origin_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/from"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/filters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

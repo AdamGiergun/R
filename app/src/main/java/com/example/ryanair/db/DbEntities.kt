@@ -24,6 +24,12 @@ data class Station constructor(
 )
 
 @Entity
+data class SimpleStation constructor(
+    val fullName: String,
+    @PrimaryKey val code: String
+)
+
+@Entity
 data class Market constructor(
     @PrimaryKey val code: String,
     val group: String?
@@ -106,13 +112,13 @@ data class Segment constructor(
 
 @Entity
 data class Filters constructor(
-    val dateOut: String,
-    val origin: String,
-    val destination: String,
-    val adult: Int,
-    val child: Int,
-    val teen: Int,
-    val infant: Int,
+    var dateOut: String,
+    var origin: String,
+    var destination: String,
+    var adult: Int,
+    var child: Int,
+    var teen: Int,
+    var infant: Int,
     val termsOfUse: String = "AGREED",
     val roundtrip: Boolean = false
 )

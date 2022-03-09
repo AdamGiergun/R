@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
+import com.example.ryanair.db.SimpleStation
 import com.example.ryanair.db.Station
 import com.example.ryanair.repository.RouteRepository
 import com.example.ryanair.repository.StationsRepository
@@ -22,6 +23,10 @@ class MainViewModel : ViewModel() {
     private val _stations = MutableLiveData<List<Station>>()
     val stations: LiveData<List<Station>>
         get() = _stations
+
+    private lateinit var simpleStationArray: Array<SimpleStation>
+
+    fun getStationsForSpinner() = simpleStationArray.map { it.fullName }.toTypedArray()
 
     private val _route = MutableLiveData<Route>()
     val route: LiveData<Route>
@@ -43,6 +48,8 @@ class MainViewModel : ViewModel() {
 
     fun search() {
         _search.value = true
+        initRoute()
+        _search.value = false
     }
 
     private val _filters = MutableLiveData(
@@ -62,38 +69,36 @@ class MainViewModel : ViewModel() {
     val filters: LiveData<Filters>
         get() = _filters
 
+    fun setOrigin(position: Int) {
+        _filters.value?.origin = simpleStationArray[position].code
+        _filters.value = filters.value
+    }
+
     init {
-        initData()
+        initStations()
     }
 
-    fun initData() {
+    fun initStations() = viewModelScope.launch {
         error = false
-        viewModelScope.launch {
-            val text1 = initStations()
-            val text2 = initRoute()
-            if (!error) _text.value = "$text1\n$text2"
-        }
-    }
-
-    private suspend fun initStations(): String {
-        var newText = ""
         stationsRepository.refresh()?.let {
             _errorText.value = it
             error = true
         }
         stationsRepository.run {
             _stations.value = stations
-            stations.forEach { station ->
-                newText += "${station.code} "
-            }
+
+            simpleStationArray = stations.map {
+                SimpleStation(
+                    "${it.countryName}, ${it.name}, ${it.code}",
+                    it.code
+                )
+            }.sortedBy { it.fullName }.toTypedArray()
         }
-        return newText
     }
 
-
-    private suspend fun initRoute(): String {
+    private fun initRoute() = viewModelScope.launch {
+        error = false
         var newText = ""
-
         filters.value?.let {
             routeRepository.refresh(it)?.let { errorText ->
                 Log.d("ERROR", errorText)
@@ -102,6 +107,6 @@ class MainViewModel : ViewModel() {
             }
         }
         newText += routeRepository.route.toString()
-        return newText
+        _text.value = newText
     }
 }
