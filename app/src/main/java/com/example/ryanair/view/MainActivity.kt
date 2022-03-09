@@ -2,15 +2,22 @@ package com.example.ryanair.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.fragment.NavHostFragment
 import com.example.ryanair.R
+import com.example.ryanair.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        ActivityMainBinding.inflate(layoutInflater).run {
+            setContentView(root)
+        }
 
         supportActionBar?.apply {
             setDisplayShowHomeEnabled(true)
@@ -18,6 +25,22 @@ class MainActivity : AppCompatActivity() {
             title = ""
         }
 
+        val navController =
+            (supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment)
+                .navController
+
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        mainViewModel.text.observe(this@MainActivity) {
+            navController.navigate(
+                StartFragmentDirections.actionStartFragmentToSearchFragment()
+            )
+        }
+        mainViewModel.search.observe(this@MainActivity) {
+            if (it) {
+                navController.navigate(
+                    SearchFragmentDirections.actionSearchFragmentToResultFragment()
+                )
+            }
+        }
     }
 }

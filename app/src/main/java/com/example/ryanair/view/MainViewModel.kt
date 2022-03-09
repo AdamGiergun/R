@@ -23,9 +23,21 @@ class MainViewModel : ViewModel() {
     val route: LiveData<Route>
         get() = _route
 
+    private val _errorText = MutableLiveData<String>()
+    val errorText: LiveData<String>
+        get() = _errorText
+
     private val _text = MutableLiveData<String>()
     val text: LiveData<String>
         get() = _text
+
+    private val _search = MutableLiveData(false)
+    val search: LiveData<Boolean>
+        get() = _search
+    fun search() {
+        _search.value = true
+//        _search.value = false
+    }
 
     init {
         viewModelScope.launch {
@@ -37,7 +49,7 @@ class MainViewModel : ViewModel() {
 
     private suspend fun initStations(): String {
         var newText = ""
-        stationsRepository.refresh()?.let { newText = it }
+        stationsRepository.refresh()?.let { _errorText.value = it }
         stationsRepository.run {
             _stations.value = stations
             stations.forEach { station ->
@@ -50,7 +62,7 @@ class MainViewModel : ViewModel() {
 
     private suspend fun initRoute(): String {
         var newText = ""
-        routeRepository.refresh()?.let { newText = it }
+        routeRepository.refresh()?.let { _errorText.value = it }
         newText += routeRepository.route.toString()
         return newText
     }
