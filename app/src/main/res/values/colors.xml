@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ryanair_background">#FF22356B</color>
+    <color name="ryanair_logo">#FFFCC210</color>
 </resources>
