@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                 .navController
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        mainViewModel.text.observe(this@MainActivity) {
+        mainViewModel.stations.observe(this@MainActivity) {
             navController.navigate(
                 StartFragmentDirections.actionStartFragmentToSearchFragment()
             )
