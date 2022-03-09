@@ -2,6 +2,7 @@ package com.example.ryanair.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.ryanair.R
 
 class MainActivity : AppCompatActivity() {
@@ -16,5 +17,7 @@ class MainActivity : AppCompatActivity() {
             setIcon(R.drawable.ic_logo)
             title = ""
         }
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 }

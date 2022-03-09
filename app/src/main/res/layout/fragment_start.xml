@@ -14,14 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".view.StartFragment">
+        tools:context=".view.StartFragment"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/loading_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:onTextChanged="@{viewModel.text}"
-            android:contentDescription="@string/loading_app" />
+            android:contentDescription="@string/loading_app"
+            app:onTextChanged="@{viewModel.text}" />
 
         <TextView
             android:id="@+id/info_text"
