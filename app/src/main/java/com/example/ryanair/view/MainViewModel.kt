@@ -1,4 +1,4 @@
-package com.example.ryanair
+package com.example.ryanair.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

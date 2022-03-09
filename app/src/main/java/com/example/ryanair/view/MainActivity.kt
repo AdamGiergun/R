@@ -1,8 +1,9 @@
-package com.example.ryanair
+package com.example.ryanair.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.example.ryanair.R
 import com.example.ryanair.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
