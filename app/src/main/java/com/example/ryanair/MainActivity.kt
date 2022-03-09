@@ -16,5 +16,10 @@ class MainActivity : AppCompatActivity() {
             lifecycleOwner = this@MainActivity
             viewModel = mainViewModel
         }
+        supportActionBar?.apply {
+            setDisplayShowHomeEnabled(true)
+            setIcon(R.drawable.ic_logo)
+            title = ""
+        }
     }
 }
