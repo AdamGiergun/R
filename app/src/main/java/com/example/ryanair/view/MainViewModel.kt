@@ -41,6 +41,11 @@ class MainViewModel : ViewModel() {
     }
 
     init {
+        initData()
+    }
+
+    fun initData() {
+        error = false
         viewModelScope.launch {
             val text1 = initStations()
             val text2 = initRoute()

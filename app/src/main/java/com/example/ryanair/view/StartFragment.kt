@@ -29,7 +29,14 @@ class StartFragment : Fragment() {
                 if (it != null) {
                     loadingImg.visibility = View.GONE
                     errorInfo.visibility = View.VISIBLE
+                    retryButton.visibility = View.VISIBLE
                 }
+            }
+            retryButton.setOnClickListener {
+                mainViewModel.initData()
+                loadingImg.visibility = View.VISIBLE
+                errorInfo.visibility = View.GONE
+                retryButton.visibility = View.GONE
             }
             root
         }
