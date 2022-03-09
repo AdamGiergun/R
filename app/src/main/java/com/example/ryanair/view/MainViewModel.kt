@@ -1,14 +1,18 @@
 package com.example.ryanair.view
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
 import com.example.ryanair.db.Station
 import com.example.ryanair.repository.RouteRepository
 import com.example.ryanair.repository.StationsRepository
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainViewModel : ViewModel() {
 
@@ -33,12 +37,30 @@ class MainViewModel : ViewModel() {
     val text: LiveData<String>
         get() = _text
 
-    private val _search = MutableLiveData(false)
+    private val _search = MutableLiveData<Boolean>()
     val search: LiveData<Boolean>
         get() = _search
+
     fun search() {
         _search.value = true
     }
+
+    private val _filters = MutableLiveData(
+        Filters(
+            Calendar.getInstance().run {
+                val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+                formatter.format(time)
+            },
+            "DUB",
+            "STN",
+            1,
+            0,
+            0,
+            0
+        )
+    )
+    val filters: LiveData<Filters>
+        get() = _filters
 
     init {
         initData()
@@ -71,9 +93,13 @@ class MainViewModel : ViewModel() {
 
     private suspend fun initRoute(): String {
         var newText = ""
-        routeRepository.refresh()?.let {
-            _errorText.value = it
-            error = true
+
+        filters.value?.let {
+            routeRepository.refresh(it)?.let { errorText ->
+                Log.d("ERROR", errorText)
+                _errorText.value = errorText
+                error = true
+            }
         }
         newText += routeRepository.route.toString()
         return newText

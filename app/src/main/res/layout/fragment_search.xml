@@ -15,6 +15,19 @@
         android:layout_height="match_parent"
         tools:context=".view.SearchFragment">
 
+        <TextView
+            android:id="@+id/filters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:paddingLeft="@dimen/error_text_padding"
+            android:paddingRight="@dimen/error_text_padding"
+            android:text="@{viewModel.filters.toString()}"
+            app:layout_constraintBottom_toTopOf="@id/search_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/search_button"
             android:layout_width="wrap_content"

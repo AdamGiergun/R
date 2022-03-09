@@ -1,5 +1,6 @@
 package com.example.ryanair.repository
 
+import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
 import com.example.ryanair.network.RyanairApi
 import com.example.ryanair.network.asDbModel
@@ -10,13 +11,23 @@ class RouteRepository {
 
     var route: Route? = null
 
-    suspend fun refresh(): String? {
+    suspend fun refresh(filters: Filters): String? {
         var message: String?
         withContext(Dispatchers.IO) {
             try {
-                route = RyanairApi.retrofitRouteApiService.getRoute(
-                    "2021-12-30","WRO", "DUB",1,0,0,0,"AGREED"
-                ).asDbModel()
+                filters.run {
+                    route = RyanairApi.retrofitRouteApiService.getRoute(
+                        dateOut,
+                        origin,
+                        destination,
+                        adult,
+                        child,
+                        teen,
+                        infant,
+                        termsOfUse,
+                        if (roundtrip) "TRUE" else "FALSE"
+                    ).asDbModel()
+                }
                 message = null
             } catch (e: Exception) {
                 message = e.localizedMessage

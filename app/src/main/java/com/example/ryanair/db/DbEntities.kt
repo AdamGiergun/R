@@ -64,7 +64,7 @@ data class Flight constructor(
     val faresLeft: Int,
     val flightKey: String,
     val infantsLeft: Int,
-    val regularFare: RegularFare,
+    val regularFare: RegularFare?,
     val operatedBy: String,
     val segments: List<Segment>,
     val flightNumber: String,
@@ -83,13 +83,13 @@ data class RegularFare constructor(
 @Entity
 data class Fare constructor(
     val type: String,
-    val amount: Int,
+    val amount: Float,
     val count: Int,
     val hasDiscount: Boolean,
-    val publishedFare: Int,
+    val publishedFare: Float,
     val discountInPercent: Int,
     val hasPromoDiscount: Boolean,
-    val discountAmount: Int,
+    val discountAmount: Float,
     val hasBogof: Boolean
 )
 
@@ -102,4 +102,17 @@ data class Segment constructor(
     val time: List<String>,
     val timeUTC: List<String>,
     val duration: String
+)
+
+@Entity
+data class Filters constructor(
+    val dateOut: String,
+    val origin: String,
+    val destination: String,
+    val adult: Int,
+    val child: Int,
+    val teen: Int,
+    val infant: Int,
+    val termsOfUse: String = "AGREED",
+    val roundtrip: Boolean = false
 )

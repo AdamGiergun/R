@@ -38,8 +38,9 @@ interface RouteApiService {
         @Query("adt") adult: Int,
         @Query("chd") child: Int,
         @Query("teen") teen: Int,
-        @Query("inf") inf: Int,
-        @Query("ToUs") ToUs: String
+        @Query("inf") infant: Int,
+        @Query("ToUs") termsOfUse: String,
+        @Query("roundtrip") roundtrip: String
     ): RouteJson
 }
 

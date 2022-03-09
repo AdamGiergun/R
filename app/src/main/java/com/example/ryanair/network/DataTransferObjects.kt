@@ -105,7 +105,7 @@ data class RouteJson(
                 val faresLeft: Int,
                 val flightKey: String,
                 val infantsLeft: Int,
-                val regularFare: RegularFareJson,
+                val regularFare: RegularFareJson?,
                 val operatedBy: String,
                 val segments: List<SegmentJson>,
                 val flightNumber: String,
@@ -122,13 +122,13 @@ data class RouteJson(
                     @JsonClass(generateAdapter = true)
                     data class FareJson(
                         val type: String,
-                        val amount: Int,
+                        val amount: Float,
                         val count: Int,
                         val hasDiscount: Boolean,
-                        val publishedFare: Int,
+                        val publishedFare: Float,
                         val discountInPercent: Int,
                         val hasPromoDiscount: Boolean,
-                        val discountAmount: Int,
+                        val discountAmount: Float,
                         val hasBogof: Boolean
                     )
                 }
@@ -172,23 +172,25 @@ fun RouteJson.asDbModel(): Route = Route(
                             flightJson.faresLeft,
                             flightJson.flightKey,
                             flightJson.infantsLeft,
-                            RegularFare(
-                                flightJson.regularFare.fareKey,
-                                flightJson.regularFare.fareClass,
-                                flightJson.regularFare.fares.map { fareJson ->
-                                    Fare(
-                                        fareJson.type,
-                                        fareJson.amount,
-                                        fareJson.count,
-                                        fareJson.hasDiscount,
-                                        fareJson.publishedFare,
-                                        fareJson.discountInPercent,
-                                        fareJson.hasPromoDiscount,
-                                        fareJson.discountAmount,
-                                        fareJson.hasBogof
-                                    )
-                                }
-                            ),
+                            flightJson.regularFare?.let { regularFareJson ->
+                                RegularFare(
+                                    regularFareJson.fareKey,
+                                    regularFareJson.fareClass,
+                                    regularFareJson.fares.map { fareJson ->
+                                        Fare(
+                                            fareJson.type,
+                                            fareJson.amount,
+                                            fareJson.count,
+                                            fareJson.hasDiscount,
+                                            fareJson.publishedFare,
+                                            fareJson.discountInPercent,
+                                            fareJson.hasPromoDiscount,
+                                            fareJson.discountAmount,
+                                            fareJson.hasBogof
+                                        )
+                                    }
+                                )
+                            },
                             flightJson.operatedBy,
                             flightJson.segments.map { segmentJson ->
                                 Segment(
