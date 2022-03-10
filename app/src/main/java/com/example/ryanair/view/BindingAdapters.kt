@@ -12,4 +12,5 @@ fun TextView.onTextChanged(newText: String?) {
 @BindingAdapter("onErrorTextChanged")
 fun TextView.onErrorTextChanged(errorText: String?) {
     errorText?.let { text = resources.getString(R.string.error) }
+    // TODO do sth with errorText
 }
