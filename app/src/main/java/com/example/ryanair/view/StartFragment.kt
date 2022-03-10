@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.ryanair.R
 import com.example.ryanair.databinding.FragmentStartBinding
 
@@ -33,6 +34,13 @@ class StartFragment : Fragment() {
                         text = getString(R.string.error)
                     }
                     retryButton.visibility = View.VISIBLE
+                }
+            }
+            mainViewModel.stations.observe(viewLifecycleOwner) {
+                if (!mainViewModel.error ) {
+                    findNavController().navigate(
+                        StartFragmentDirections.actionStartFragmentToSearchFragment()
+                    )
                 }
             }
             retryButton.setOnClickListener {

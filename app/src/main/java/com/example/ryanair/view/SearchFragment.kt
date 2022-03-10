@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.ryanair.R
 import com.example.ryanair.databinding.FragmentSearchBinding
 
@@ -23,7 +24,16 @@ class SearchFragment : Fragment(),
     ): View {
         return FragmentSearchBinding.inflate(inflater).run {
             lifecycleOwner = viewLifecycleOwner
+
             viewModel = mainViewModel
+            mainViewModel.route.observe(viewLifecycleOwner) {
+                if (!mainViewModel.error ) {
+                    findNavController().navigate(
+                        SearchFragmentDirections.actionSearchFragmentToResultFragment()
+                    )
+                }
+            }
+
             searchButton.setOnClickListener {
                 mainViewModel.search()
             }
