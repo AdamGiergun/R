@@ -42,14 +42,8 @@ class MainViewModel : ViewModel() {
     val text: LiveData<String>
         get() = _text
 
-    private val _search = MutableLiveData<Boolean>()
-    val search: LiveData<Boolean>
-        get() = _search
-
     fun search() {
-        _search.value = true
         initRoute()
-        _search.value = false
     }
 
     private val _filters = MutableLiveData(
@@ -85,19 +79,19 @@ class MainViewModel : ViewModel() {
 
     fun initStations() = viewModelScope.launch {
         error = false
-        stationsRepository.refresh()?.let {
-            _errorText.value = it
-            error = true
-        }
         stationsRepository.run {
-            _stations.value = stations
-
-            simpleStationArray = stations.map {
-                SimpleStation(
-                    "${it.countryName}, ${it.name}, ${it.code}",
-                    it.code
-                )
-            }.sortedBy { it.fullName }.toTypedArray()
+            refresh()
+            stationsRepository.let {
+                _errorText.value = errorText
+                this@MainViewModel.error = this.error
+                _stations.value = stations
+                simpleStationArray = stations?.map {
+                    SimpleStation(
+                        "${it.countryName}, ${it.name}, ${it.code}",
+                        it.code
+                    )
+                }?.sortedBy { it.fullName }?.toTypedArray() ?: emptyArray()
+            }
         }
     }
 

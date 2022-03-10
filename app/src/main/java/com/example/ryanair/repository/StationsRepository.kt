@@ -8,19 +8,23 @@ import kotlinx.coroutines.withContext
 
 class StationsRepository {
 
-    lateinit var stations: List<Station>
+    var stations: List<Station>? = null
+        private set
 
-    suspend fun refresh(): String? {
-        var message: String?
-        withContext(Dispatchers.IO) {
-            try {
-                stations = RyanairApi.retrofitStationsApiService.getAirports().asDbModel()
-                message = null
-            } catch (e: Exception) {
-                stations = emptyList()
-                message = e.localizedMessage
-            }
+    var errorText: String? = null
+        private set
+
+    var error = false
+        private set
+
+    suspend fun refresh() = withContext(Dispatchers.IO) {
+        error = false
+        try {
+            stations = RyanairApi.retrofitStationsApiService.getAirports().asDbModel()
+        } catch (e: Exception) {
+            stations = null
+            errorText = e.localizedMessage
+            error = true
         }
-        return message
     }
 }

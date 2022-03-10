@@ -27,7 +27,6 @@
             android:layout_marginBottom="64dp"
             android:paddingLeft="@dimen/error_text_padding"
             android:paddingRight="@dimen/error_text_padding"
-            android:text="@string/error"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/retry_button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,8 +41,8 @@
             android:layout_marginBottom="64dp"
             android:contentDescription="@string/retry"
             android:text="@string/retry"
-            android:visibility="gone"
             android:textColor="@color/ryanair_logo"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

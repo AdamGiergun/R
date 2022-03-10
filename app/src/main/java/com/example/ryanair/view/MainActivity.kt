@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
             setContentView(root)
         }
 
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+
         supportActionBar?.apply {
             setDisplayShowHomeEnabled(true)
             setIcon(R.drawable.ic_logo)
@@ -29,11 +31,12 @@ class MainActivity : AppCompatActivity() {
             (supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment)
                 .navController
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         mainViewModel.stations.observe(this@MainActivity) {
-            navController.navigate(
-                StartFragmentDirections.actionStartFragmentToSearchFragment()
-            )
+            if (!mainViewModel.error ) {
+                navController.navigate(
+                    StartFragmentDirections.actionStartFragmentToSearchFragment()
+                )
+            }
         }
         mainViewModel.route.observe(this@MainActivity) {
             if (!mainViewModel.error ) {

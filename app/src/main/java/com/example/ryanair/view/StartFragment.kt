@@ -28,7 +28,10 @@ class StartFragment : Fragment() {
             mainViewModel.errorText.observe(viewLifecycleOwner) {
                 if (it != null) {
                     loadingImg.visibility = View.GONE
-                    errorInfo.visibility = View.VISIBLE
+                    errorInfo.apply {
+                        visibility = View.VISIBLE
+                        text = getString(R.string.error)
+                    }
                     retryButton.visibility = View.VISIBLE
                 }
             }
