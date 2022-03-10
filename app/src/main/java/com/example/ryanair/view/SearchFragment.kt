@@ -27,10 +27,11 @@ class SearchFragment : Fragment(),
             searchButton.setOnClickListener {
                 mainViewModel.search()
             }
+
             originSpinner.apply {
                 val newAdapter = ArrayAdapter(
                     requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
+                    R.layout.spinner_item,
                     mainViewModel.getStationsForSpinner()
                 )
                 adapter = newAdapter
@@ -38,6 +39,19 @@ class SearchFragment : Fragment(),
                 setSelection(spinnerDefaultPosition)
                 onItemSelectedListener = this@SearchFragment
             }
+
+            destinationSpinner.apply {
+                val newAdapter = ArrayAdapter(
+                    requireContext(),
+                    R.layout.spinner_item,
+                    mainViewModel.getStationsForSpinner()
+                )
+                adapter = newAdapter
+                val spinnerDefaultPosition = newAdapter.getPosition("United Kingdom, London Stansted, STN")
+                setSelection(spinnerDefaultPosition)
+                onItemSelectedListener = this@SearchFragment
+            }
+
             root
         }
     }
@@ -45,6 +59,7 @@ class SearchFragment : Fragment(),
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when (parent?.id) {
             R.id.origin_spinner -> mainViewModel.setOrigin(position)
+            R.id.destination_spinner -> mainViewModel.setDestination(position)
         }
     }
 

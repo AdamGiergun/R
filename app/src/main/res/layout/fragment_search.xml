@@ -17,33 +17,53 @@
 
         <TextView
             android:id="@+id/from"
-            android:layout_width="80dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/from"
+            android:textSize="@dimen/spinner_text_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/origin_spinner"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/from"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/from"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/to"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/to"
+            android:textSize="@dimen/spinner_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/from" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/destination_spinner"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/to"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/to"
+            app:layout_constraintTop_toBottomOf="@id/from" />
+
+        <TextView
             android:id="@+id/filters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="64dp"
+            android:layout_marginBottom="32dp"
             android:paddingLeft="@dimen/error_text_padding"
             android:paddingRight="@dimen/error_text_padding"
             android:text="@{viewModel.filters.toString()}"
             app:layout_constraintBottom_toTopOf="@id/search_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/search_button"

@@ -74,6 +74,11 @@ class MainViewModel : ViewModel() {
         _filters.value = filters.value
     }
 
+    fun setDestination(position: Int) {
+        _filters.value?.destination = simpleStationArray[position].code
+        _filters.value = filters.value
+    }
+
     init {
         initStations()
     }
