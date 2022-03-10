@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity() {
                 StartFragmentDirections.actionStartFragmentToSearchFragment()
             )
         }
-        mainViewModel.search.observe(this@MainActivity) {
-            if (it && !mainViewModel.error ) {
+        mainViewModel.route.observe(this@MainActivity) {
+            if (!mainViewModel.error ) {
                 navController.navigate(
                     SearchFragmentDirections.actionSearchFragmentToResultFragment()
                 )
