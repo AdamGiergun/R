@@ -1,6 +1,5 @@
 package com.example.ryanair.view
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -43,6 +42,7 @@ class MainViewModel : ViewModel() {
         get() = _text
 
     fun search() {
+        error = false
         initRoute()
     }
 
@@ -82,7 +82,7 @@ class MainViewModel : ViewModel() {
         stationsRepository.run {
             refresh()
             stationsRepository.let {
-                _errorText.value = errorText
+                _errorText.value = this.errorText
                 this@MainViewModel.error = this.error
                 _stations.value = stations
                 simpleStationArray = stations?.map {
@@ -98,14 +98,19 @@ class MainViewModel : ViewModel() {
     private fun initRoute() = viewModelScope.launch {
         error = false
         var newText = ""
-        filters.value?.let {
-            routeRepository.refresh(it)?.let { errorText ->
-                Log.d("ERROR", errorText)
-                _errorText.value = errorText
-                error = true
+        filters.value?.let { filters ->
+            routeRepository.run {
+                refresh(filters)
+                _errorText.value = this.errorText
+                this@MainViewModel.error = this.error
+                if (!this.error) {
+                    this.route?.let { newRoute ->
+                        newText += newRoute.toString()
+                        _text.value = newText
+                        _route.value = newRoute
+                    }
+                }
             }
         }
-        newText += routeRepository.route.toString()
-        _text.value = newText
     }
 }

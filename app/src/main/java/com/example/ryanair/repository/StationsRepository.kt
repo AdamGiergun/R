@@ -18,9 +18,10 @@ class StationsRepository {
         private set
 
     suspend fun refresh() = withContext(Dispatchers.IO) {
-        error = false
         try {
             stations = RyanairApi.retrofitStationsApiService.getAirports().asDbModel()
+            errorText = null
+            error = false
         } catch (e: Exception) {
             stations = null
             errorText = e.localizedMessage

@@ -10,9 +10,15 @@ import kotlinx.coroutines.withContext
 class RouteRepository {
 
     var route: Route? = null
+        private set
 
-    suspend fun refresh(filters: Filters): String? {
-        var message: String?
+    var errorText: String? = null
+        private set
+
+    var error = false
+        private set
+
+    suspend fun refresh(filters: Filters) {
         withContext(Dispatchers.IO) {
             try {
                 filters.run {
@@ -28,12 +34,12 @@ class RouteRepository {
                         if (roundtrip) "TRUE" else "FALSE"
                     ).asDbModel()
                 }
-                message = null
+                errorText = null
+                error = false
             } catch (e: Exception) {
-                message = e.localizedMessage
+                errorText = e.localizedMessage
+                error = true
             }
         }
-        return message
     }
-
 }
