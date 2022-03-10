@@ -10,13 +10,13 @@ import com.example.ryanair.db.SimpleStation
 import com.example.ryanair.db.Station
 import com.example.ryanair.repository.RouteRepository
 import com.example.ryanair.repository.StationsRepository
+import com.example.ryanair.repository.StationsRepositoryImpl
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val stationsRepository: StationsRepository = StationsRepositoryImpl())  : ViewModel() {
 
-    private val stationsRepository = StationsRepository()
     private val routeRepository = RouteRepository()
 
     private val _stations = MutableLiveData<List<Station>>()
