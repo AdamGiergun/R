@@ -14,9 +14,6 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val repositories: Repositories) :
     ViewModel() {
 
-    var stationsRepository: StationsRepository = StationsRepositoryImpl()
-    var routeRepository: RouteRepository = RouteRepositoryImpl()
-
     private val _stations = MutableLiveData<List<Station>>()
     val stations: LiveData<List<Station>>
         get() = _stations
@@ -83,7 +80,7 @@ class MainViewModel @Inject constructor(private val repositories: Repositories) 
 
     fun initStations() = viewModelScope.launch {
         error = false
-        stationsRepository.run {
+        repositories.stationsRepository.run {
             refresh()
             this.let {
                 _errorText.value = this.errorText
@@ -103,7 +100,7 @@ class MainViewModel @Inject constructor(private val repositories: Repositories) 
         error = false
         var newText = ""
         filters.value?.let { filters ->
-            routeRepository.run {
+            repositories.routeRepository.run {
                 refresh(filters)
                 _errorText.value = this.errorText
                 this@MainViewModel.error = this.error

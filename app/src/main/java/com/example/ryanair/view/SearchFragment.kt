@@ -8,10 +8,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.ryanair.R
 import com.example.ryanair.databinding.FragmentSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : Fragment(),
     AdapterView.OnItemSelectedListener {
 
@@ -42,24 +47,30 @@ class SearchFragment : Fragment(),
                 val newAdapter = ArrayAdapter(
                     requireContext(),
                     R.layout.spinner_item,
-                    mainViewModel.getStationsForSpinner()
+                    mainViewModel.stationsForSpinner
                 )
                 adapter = newAdapter
-                val spinnerDefaultPosition = newAdapter.getPosition("Ireland, Dublin, DUB")
-                setSelection(spinnerDefaultPosition)
                 onItemSelectedListener = this@SearchFragment
+
+                mainViewModel.filters.observeOnce(viewLifecycleOwner) {
+                    val spinnerDefaultPosition = newAdapter.getPosition(mainViewModel.defaultOrigin)
+                    setSelection(spinnerDefaultPosition)
+                }
             }
 
             destinationSpinner.apply {
                 val newAdapter = ArrayAdapter(
                     requireContext(),
                     R.layout.spinner_item,
-                    mainViewModel.getStationsForSpinner()
+                    mainViewModel.stationsForSpinner
                 )
                 adapter = newAdapter
-                val spinnerDefaultPosition = newAdapter.getPosition("United Kingdom, London Stansted, STN")
-                setSelection(spinnerDefaultPosition)
                 onItemSelectedListener = this@SearchFragment
+
+                mainViewModel.filters.observeOnce(viewLifecycleOwner) {
+                    val spinnerDefaultPosition = newAdapter.getPosition(mainViewModel.defaultDestination)
+                    setSelection(spinnerDefaultPosition)
+                }
             }
 
             root
@@ -74,5 +85,14 @@ class SearchFragment : Fragment(),
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
+}
+
+private fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: (T) -> Unit) {
+    observe(owner, object: Observer<T> {
+        override fun onChanged(value: T) {
+            removeObserver(this)
+            observer(value)
+        }
+    })
 }
 
