@@ -112,6 +112,7 @@ data class Segment constructor(
 
 @Entity
 data class Filters constructor(
+    @PrimaryKey(autoGenerate = true) val id: Int,
     var dateOut: String,
     var origin: String,
     var destination: String,
