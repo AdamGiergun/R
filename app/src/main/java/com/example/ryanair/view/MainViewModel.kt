@@ -1,25 +1,21 @@
 package com.example.ryanair.view
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.ryanair.db.Filters
+import androidx.lifecycle.*
 import com.example.ryanair.db.Route
 import com.example.ryanair.db.SimpleStation
 import com.example.ryanair.db.Station
-import com.example.ryanair.repository.RouteRepository
-import com.example.ryanair.repository.RouteRepositoryImpl
-import com.example.ryanair.repository.StationsRepository
-import com.example.ryanair.repository.StationsRepositoryImpl
+import com.example.ryanair.repository.*
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
+import javax.inject.Inject
 
-class MainViewModel(
-    private val stationsRepository: StationsRepository = StationsRepositoryImpl(),
-    private val routeRepository: RouteRepository = RouteRepositoryImpl()
-) : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(private val repositories: Repositories) :
+    ViewModel() {
+
+    var stationsRepository: StationsRepository = StationsRepositoryImpl()
+    var routeRepository: RouteRepository = RouteRepositoryImpl()
 
     private val _stations = MutableLiveData<List<Station>>()
     val stations: LiveData<List<Station>>
@@ -27,7 +23,8 @@ class MainViewModel(
 
     private lateinit var simpleStationArray: Array<SimpleStation>
 
-    fun getStationsForSpinner() = simpleStationArray.map { it.fullName }.toTypedArray()
+    val stationsForSpinner
+        get() =  simpleStationArray.map { it.fullName }.toTypedArray()
 
     private val _route = MutableLiveData<Route>()
     val route: LiveData<Route>
@@ -43,36 +40,41 @@ class MainViewModel(
     val text: LiveData<String>
         get() = _text
 
+    private val _search = MutableLiveData(false)
+    val search: LiveData<Boolean>
+        get() = _search
+
     fun search() {
         error = false
         initRoute()
     }
 
-    private val _filters = MutableLiveData(
-        Filters(
-            Calendar.getInstance().run {
-                val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                formatter.format(time)
-            },
-            "DUB",
-            "STN",
-            1,
-            0,
-            0,
-            0
-        )
-    )
-    val filters: LiveData<Filters>
-        get() = _filters
+    val filters = repositories.filtersRepository.filters.asLiveData()
 
-    fun setOrigin(position: Int) {
-        _filters.value?.origin = simpleStationArray[position].code
-        _filters.value = filters.value
+    val defaultOrigin: String
+        get() {
+            val origin: String = filters.value?.origin ?: "DUB"
+            return simpleStationArray.first { it.code == origin }.fullName
+        }
+
+    val defaultDestination: String
+        get() {
+            val destination: String = filters.value?.destination ?: "STN"
+            return simpleStationArray.first { it.code == destination }.fullName
+        }
+
+    fun setOrigin(position: Int) = viewModelScope.launch(Dispatchers.IO) {
+        filters.value?.run {
+            val newFilters = this.copy(origin = simpleStationArray[position].code)
+            repositories.filtersRepository.update(newFilters)
+        }
     }
 
-    fun setDestination(position: Int) {
-        _filters.value?.destination = simpleStationArray[position].code
-        _filters.value = filters.value
+    fun setDestination(position: Int) = viewModelScope.launch(Dispatchers.IO) {
+        filters.value?.run {
+            val newFilters = this.copy(destination = simpleStationArray[position].code)
+            repositories.filtersRepository.update(newFilters)
+        }
     }
 
     init {
@@ -83,7 +85,7 @@ class MainViewModel(
         error = false
         stationsRepository.run {
             refresh()
-            stationsRepository.let {
+            this.let {
                 _errorText.value = this.errorText
                 this@MainViewModel.error = this.error
                 _stations.value = stations
@@ -111,6 +113,8 @@ class MainViewModel(
                         _text.value = newText
                         _route.value = newRoute
                     }
+                    _search.value = true
+                    _search.value = false
                 }
             }
         }
