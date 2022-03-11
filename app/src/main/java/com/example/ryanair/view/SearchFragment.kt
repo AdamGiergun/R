@@ -26,8 +26,8 @@ class SearchFragment : Fragment(),
             lifecycleOwner = viewLifecycleOwner
 
             viewModel = mainViewModel
-            mainViewModel.route.observe(viewLifecycleOwner) {
-                if (!mainViewModel.error ) {
+            mainViewModel.search.observe(viewLifecycleOwner) { search ->
+                if (!mainViewModel.error && search ) {
                     findNavController().navigate(
                         SearchFragmentDirections.actionSearchFragmentToResultFragment()
                     )
