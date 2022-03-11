@@ -1,6 +1,6 @@
 package com.example.ryanair.repository
 
-import com.example.ryanair.MockResponseFileReader
+import com.example.ryanair.util.MockResponseFileReader
 import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
 import com.example.ryanair.network.RouteJson

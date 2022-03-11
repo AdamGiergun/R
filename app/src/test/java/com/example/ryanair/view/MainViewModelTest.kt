@@ -1,8 +1,8 @@
 package com.example.ryanair.view
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.ryanair.MainCoroutineRule
-import com.example.ryanair.MockResponseFileReader
+import com.example.ryanair.util.MainCoroutineRule
+import com.example.ryanair.util.MockResponseFileReader
 import com.example.ryanair.repository.MockRouteRepositoryImpl
 import com.example.ryanair.repository.MockStationsRepositoryImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi

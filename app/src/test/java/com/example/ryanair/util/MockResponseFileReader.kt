@@ -1,4 +1,4 @@
-package com.example.ryanair
+package com.example.ryanair.util
 
 import java.io.InputStreamReader
 

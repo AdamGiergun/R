@@ -1,8 +1,7 @@
 package com.example.ryanair.network
 
-import com.example.ryanair.MockResponseFileReader
+import com.example.ryanair.util.MockResponseFileReader
 import com.squareup.moshi.Moshi
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
