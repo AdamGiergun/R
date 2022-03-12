@@ -26,14 +26,10 @@ class RouteViewModel @Inject constructor(
 
     var error = false
         private set
-//    TODO for future use with separate TextView for error text
-//    private val _errorText = MutableLiveData<String>()
-//    val errorText: LiveData<String>
-//        get() = _errorText
 
-    private val _text = MutableLiveData<String>()
-    val text: LiveData<String>
-        get() = _text
+    private val _errorText = MutableLiveData<String>()
+    val errorText: LiveData<String>
+        get() = _errorText
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -41,12 +37,10 @@ class RouteViewModel @Inject constructor(
             viewModelScope.launch {
                 error = routeRepository.error
                 if (error) {
-                    // TODO separate TextView for error text
-                    // _errorText.value = this.errorText
-                    _text.value = routeRepository.errorText
+                    _errorText.value = routeRepository.errorText
                 } else {
                     _route.value = routeRepository.route
-                    _text.value = route.value.toString()
+                    _errorText.value = route.value.toString()
                 }
             }.join()
         }
