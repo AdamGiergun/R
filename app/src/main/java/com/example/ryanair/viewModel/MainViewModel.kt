@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ryanair.db.Filters
-import com.example.ryanair.db.Route
 import com.example.ryanair.db.SimpleStation
 import com.example.ryanair.db.Station
 import com.example.ryanair.repository.FiltersRepository
@@ -31,10 +30,6 @@ class MainViewModel @Inject constructor(
 
     val stationsForSpinner
         get() = simpleStationArray.map { it.fullName }.toTypedArray()
-
-    private val _route = MutableLiveData<Route>()
-    val route: LiveData<Route>
-        get() = _route
 
     var error = false
         private set
