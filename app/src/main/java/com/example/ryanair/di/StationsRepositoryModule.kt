@@ -14,5 +14,5 @@ abstract class StationsRepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun bindNavigator(impl: StationsRepositoryImpl): StationsRepository
+    abstract fun bindStationsRepository(impl: StationsRepositoryImpl): StationsRepository
 }

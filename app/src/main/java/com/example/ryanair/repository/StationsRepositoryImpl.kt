@@ -5,8 +5,9 @@ import com.example.ryanair.network.RyanairApi
 import com.example.ryanair.network.asDbModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class StationsRepositoryImpl: StationsRepository {
+class StationsRepositoryImpl @Inject constructor(): StationsRepository {
 
     override var stations: List<Station>? = null
         private set

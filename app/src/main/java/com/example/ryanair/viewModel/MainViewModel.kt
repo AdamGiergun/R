@@ -4,14 +4,18 @@ import androidx.lifecycle.*
 import com.example.ryanair.db.Route
 import com.example.ryanair.db.SimpleStation
 import com.example.ryanair.db.Station
-import com.example.ryanair.repository.*
+import com.example.ryanair.repository.FiltersRepository
+import com.example.ryanair.repository.StationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repositories: Repositories) :
+class MainViewModel @Inject constructor(
+    private val filtersRepository: FiltersRepository,
+    private val stationsRepository: StationsRepository
+) :
     ViewModel() {
 
     private val _stations = MutableLiveData<List<Station>>()
@@ -21,7 +25,7 @@ class MainViewModel @Inject constructor(private val repositories: Repositories) 
     private lateinit var simpleStationArray: Array<SimpleStation>
 
     val stationsForSpinner
-        get() =  simpleStationArray.map { it.fullName }.toTypedArray()
+        get() = simpleStationArray.map { it.fullName }.toTypedArray()
 
     private val _route = MutableLiveData<Route>()
     val route: LiveData<Route>
@@ -37,7 +41,7 @@ class MainViewModel @Inject constructor(private val repositories: Repositories) 
     val text: LiveData<String>
         get() = _text
 
-    val filters = repositories.filtersRepository.filters.asLiveData()
+    val filters = filtersRepository.filters.asLiveData()
 
     val defaultOrigin: String
         get() {
@@ -54,14 +58,14 @@ class MainViewModel @Inject constructor(private val repositories: Repositories) 
     fun setOrigin(position: Int) = viewModelScope.launch(Dispatchers.IO) {
         filters.value?.run {
             val newFilters = this.copy(origin = simpleStationArray[position].code)
-            repositories.filtersRepository.update(newFilters)
+            filtersRepository.update(newFilters)
         }
     }
 
     fun setDestination(position: Int) = viewModelScope.launch(Dispatchers.IO) {
         filters.value?.run {
             val newFilters = this.copy(destination = simpleStationArray[position].code)
-            repositories.filtersRepository.update(newFilters)
+            filtersRepository.update(newFilters)
         }
     }
 
@@ -71,7 +75,7 @@ class MainViewModel @Inject constructor(private val repositories: Repositories) 
 
     fun initStations() = viewModelScope.launch {
         error = false
-        repositories.stationsRepository.run {
+        stationsRepository.run {
             refresh()
             this.let {
                 _errorText.value = this.errorText
