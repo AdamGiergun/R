@@ -1,5 +1,6 @@
 package com.example.ryanair.repository
 
+import com.example.ryanair.R
 import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
 import com.example.ryanair.network.RyanairApi
@@ -9,15 +10,18 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
-class RouteRepositoryImpl @Inject constructor(): RouteRepository {
+class RouteRepositoryImpl @Inject constructor() : RouteRepository {
 
     override var route: Route? = null
         private set
 
-    override var errorText: String? = null
+    override var error = false
         private set
 
-    override var error = false
+    override var errorInfoId: Int = 0
+        private set
+
+    override var errorText: String = ""
         private set
 
     override suspend fun refresh(filters: Filters) {
@@ -35,11 +39,21 @@ class RouteRepositoryImpl @Inject constructor(): RouteRepository {
                         termsOfUse,
                         if (roundtrip) "TRUE" else "FALSE"
                     ).asDbModel()
+                        .also {
+                            if (it.trips.isEmpty()) {
+                                errorInfoId = R.string.error_no_flights_on_selected_date
+                                error = true
+                            }
+                        }
                 }
-                errorText = null
-                error = false
             } catch (e: Exception) {
-                errorText = e.localizedMessage
+                errorInfoId = when {
+                    e.localizedMessage?.contains("HTTP 404") ?: false -> R.string.error_route_not_serviced
+                    else -> {
+                        errorText = e.localizedMessage ?: ""
+                        R.string.error_internet
+                    }
+                }
                 error = true
             }
         }

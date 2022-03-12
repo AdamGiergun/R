@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Ryanair</string>
     <string name="loading_app">Loading app</string>
-    <string name="error">Something went wrong.\nCheck Internet connection or try again later.</string>
+    <string name="error_internet">Something went wrong.\nCheck Internet connection or try again later.\n\n%1$s</string>
+    <string name="error_route_not_serviced">Route not serviced by Ryanair.</string>
+    <string name="error_no_flights_on_selected_date">No flights for the selected date.</string>
     <string name="search">SEARCH</string>
     <string name="retry">RETRY</string>
     <string name="from">FROM:</string>

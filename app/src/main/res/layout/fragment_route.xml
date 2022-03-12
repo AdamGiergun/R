@@ -13,7 +13,6 @@
         android:id="@+id/error_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@{viewModel.errorText}"
         tools:context=".view.RouteFragment" />
 
 </layout>

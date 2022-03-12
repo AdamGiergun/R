@@ -31,15 +31,20 @@ class RouteViewModel @Inject constructor(
     val errorText: LiveData<String>
         get() = _errorText
 
+    var errorTextId: Int = 0
+        private set
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             routeRepository.refresh(filtersRepository.getFilters())
             viewModelScope.launch {
                 error = routeRepository.error
                 if (error) {
+                    errorTextId = routeRepository.errorInfoId
                     _errorText.value = routeRepository.errorText
                 } else {
                     _route.value = routeRepository.route
+                    // TODO implement RecyclerView
                     _errorText.value = route.value.toString()
                 }
             }.join()

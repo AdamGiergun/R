@@ -34,7 +34,7 @@ class StartFragment : Fragment() {
                     loadingImg.visibility = View.GONE
                     errorInfo.apply {
                         visibility = View.VISIBLE
-                        text = getString(R.string.error)
+                        text = getString(R.string.error_internet, it)
                     }
                     retryButton.visibility = View.VISIBLE
                 }

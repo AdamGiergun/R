@@ -22,7 +22,15 @@ class RouteFragment : Fragment() {
     ): View {
         return FragmentRouteBinding.inflate(inflater).run {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = routeViewModel
+            routeViewModel.also { rvm ->
+                viewModel = rvm
+                rvm.errorText.observe(viewLifecycleOwner) {
+                    errorText.text = if (rvm.errorTextId > 0)
+                        getString(rvm.errorTextId, rvm.errorText.value)
+                    else
+                        rvm.errorText.value
+                }
+            }
             root
         }
     }
