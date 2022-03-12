@@ -8,9 +8,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.ryanair.R
 import com.example.ryanair.databinding.FragmentFiltersBinding
@@ -33,12 +30,10 @@ class FiltersFragment : Fragment(),
             viewModel = mainViewModel
 
             searchButton.setOnClickListener {
-                mainViewModel.filters.value?.let { filters ->
-                    if (!mainViewModel.error) {
-                        findNavController().navigate(
-                            FiltersFragmentDirections.actionFiltersFragmentToRouteFragment(filters)
-                        )
-                    }
+                if (!mainViewModel.error) {
+                    findNavController().navigate(
+                        FiltersFragmentDirections.actionFiltersFragmentToRouteFragment()
+                    )
                 }
             }
 
@@ -51,9 +46,10 @@ class FiltersFragment : Fragment(),
                 adapter = newAdapter
                 onItemSelectedListener = this@FiltersFragment
 
-                mainViewModel.filters.observeOnce(viewLifecycleOwner) {
-                    val spinnerDefaultPosition = newAdapter.getPosition(mainViewModel.defaultOrigin)
-                    setSelection(spinnerDefaultPosition)
+                mainViewModel.filtersInitialized.observe(viewLifecycleOwner) {
+                    if (it) {
+                        setSelection(mainViewModel.defaultOriginPosition)
+                    }
                 }
             }
 
@@ -66,10 +62,10 @@ class FiltersFragment : Fragment(),
                 adapter = newAdapter
                 onItemSelectedListener = this@FiltersFragment
 
-                mainViewModel.filters.observeOnce(viewLifecycleOwner) {
-                    val spinnerDefaultPosition =
-                        newAdapter.getPosition(mainViewModel.defaultDestination)
-                    setSelection(spinnerDefaultPosition)
+                mainViewModel.filtersInitialized.observe(viewLifecycleOwner) {
+                    if (it) {
+                        setSelection(mainViewModel.defaultDestinationPosition)
+                    }
                 }
             }
             root
@@ -84,13 +80,4 @@ class FiltersFragment : Fragment(),
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
-}
-
-private fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: (T) -> Unit) {
-    observe(owner, object : Observer<T> {
-        override fun onChanged(value: T) {
-            removeObserver(this)
-            observer(value)
-        }
-    })
 }

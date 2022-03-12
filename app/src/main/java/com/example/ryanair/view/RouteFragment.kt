@@ -23,9 +23,6 @@ class RouteFragment : Fragment() {
         return FragmentRouteBinding.inflate(inflater).run {
             lifecycleOwner = viewLifecycleOwner
             viewModel = routeViewModel
-            routeViewModel.initRoute(
-                RouteFragmentArgs.fromBundle(requireArguments()).filters
-            )
             root
         }
     }

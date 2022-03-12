@@ -4,18 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
+import com.example.ryanair.repository.FiltersRepository
 import com.example.ryanair.repository.RouteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RouteViewModel @Inject constructor(private val routeRepository: RouteRepository) :
+class RouteViewModel @Inject constructor(
+    private val routeRepository: RouteRepository,
+    private val filtersRepository: FiltersRepository
+) :
     ViewModel() {
 
     private val _route = MutableLiveData<Route>()
+    @Suppress("unused")
     val route: LiveData<Route>
         get() = _route
 
@@ -30,19 +35,20 @@ class RouteViewModel @Inject constructor(private val routeRepository: RouteRepos
     val text: LiveData<String>
         get() = _text
 
-    fun initRoute(filters: Filters) = viewModelScope.launch {
-        error = false
-        routeRepository.run {
-            refresh(filters)
-            this@RouteViewModel.error = this.error
-            if (this.error) {
-                // TODO separate TextView for error text
-                // _errorText.value = this.errorText
-                _text.value = this.errorText
-            } else {
-                _route.value = routeRepository.route
-                _text.value = routeRepository.route.toString()
-            }
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            routeRepository.refresh(filtersRepository.getFilters())
+            viewModelScope.launch {
+                error = routeRepository.error
+                if (error) {
+                    // TODO separate TextView for error text
+                    // _errorText.value = this.errorText
+                    _text.value = routeRepository.errorText
+                } else {
+                    _route.value = routeRepository.route
+                    _text.value = route.value.toString()
+                }
+            }.join()
         }
     }
 }
