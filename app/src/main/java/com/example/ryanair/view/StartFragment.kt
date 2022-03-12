@@ -42,7 +42,7 @@ class StartFragment : Fragment() {
             mainViewModel.stations.observe(viewLifecycleOwner) {
                 if (!mainViewModel.error ) {
                     findNavController().navigate(
-                        StartFragmentDirections.actionStartFragmentToSearchFragment()
+                        StartFragmentDirections.actionStartFragmentToFiltersFragment()
                     )
                 }
             }

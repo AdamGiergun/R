@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.ryanair.databinding.FragmentResultBinding
+import com.example.ryanair.databinding.FragmentRouteBinding
 import com.example.ryanair.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ResultFragment : Fragment() {
+class RouteFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -20,7 +20,7 @@ class ResultFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentResultBinding.inflate(inflater).run {
+        return FragmentRouteBinding.inflate(inflater).run {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mainViewModel
             root

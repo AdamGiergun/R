@@ -13,12 +13,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.ryanair.R
-import com.example.ryanair.databinding.FragmentSearchBinding
+import com.example.ryanair.databinding.FragmentFiltersBinding
 import com.example.ryanair.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(),
+class FiltersFragment : Fragment(),
     AdapterView.OnItemSelectedListener {
 
     private val mainViewModel: MainViewModel by activityViewModels()
@@ -28,15 +28,17 @@ class SearchFragment : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentSearchBinding.inflate(inflater).run {
+        return FragmentFiltersBinding.inflate(inflater).run {
             lifecycleOwner = viewLifecycleOwner
 
             viewModel = mainViewModel
             mainViewModel.search.observe(viewLifecycleOwner) { search ->
-                if (!mainViewModel.error && search ) {
-                    findNavController().navigate(
-                        SearchFragmentDirections.actionSearchFragmentToResultFragment()
-                    )
+                mainViewModel.filters.value?.let { filters ->
+                    if (!mainViewModel.error && search) {
+                        findNavController().navigate(
+                            FiltersFragmentDirections.actionFiltersFragmentToRouteFragment()
+                        )
+                    }
                 }
             }
 
@@ -51,7 +53,7 @@ class SearchFragment : Fragment(),
                     mainViewModel.stationsForSpinner
                 )
                 adapter = newAdapter
-                onItemSelectedListener = this@SearchFragment
+                onItemSelectedListener = this@FiltersFragment
 
                 mainViewModel.filters.observeOnce(viewLifecycleOwner) {
                     val spinnerDefaultPosition = newAdapter.getPosition(mainViewModel.defaultOrigin)
@@ -66,10 +68,11 @@ class SearchFragment : Fragment(),
                     mainViewModel.stationsForSpinner
                 )
                 adapter = newAdapter
-                onItemSelectedListener = this@SearchFragment
+                onItemSelectedListener = this@FiltersFragment
 
                 mainViewModel.filters.observeOnce(viewLifecycleOwner) {
-                    val spinnerDefaultPosition = newAdapter.getPosition(mainViewModel.defaultDestination)
+                    val spinnerDefaultPosition =
+                        newAdapter.getPosition(mainViewModel.defaultDestination)
                     setSelection(spinnerDefaultPosition)
                 }
             }
@@ -89,7 +92,7 @@ class SearchFragment : Fragment(),
 }
 
 private fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: (T) -> Unit) {
-    observe(owner, object: Observer<T> {
+    observe(owner, object : Observer<T> {
         override fun onChanged(value: T) {
             removeObserver(this)
             observer(value)
