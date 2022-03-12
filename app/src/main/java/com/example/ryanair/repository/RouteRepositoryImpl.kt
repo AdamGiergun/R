@@ -40,7 +40,7 @@ class RouteRepositoryImpl @Inject constructor() : RouteRepository {
                         if (roundtrip) "TRUE" else "FALSE"
                     ).asDbModel()
                         .also {
-                            if (it.trips.isEmpty()) {
+                            if (it.trips[0].dates[0].flights.isEmpty()) {
                                 errorInfoId = R.string.error_no_flights_on_selected_date
                                 error = true
                             }
