@@ -6,13 +6,11 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 abstract class RouteRepositoryModule {
 
-    @Singleton
     @Binds
-    abstract fun bindNavigator(impl: RouteRepositoryImpl): RouteRepository
+    abstract fun bindRouteRepository(routeRepositoryImpl: RouteRepositoryImpl): RouteRepository
 }

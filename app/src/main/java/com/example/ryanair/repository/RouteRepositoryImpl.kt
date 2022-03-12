@@ -6,8 +6,10 @@ import com.example.ryanair.network.RyanairApi
 import com.example.ryanair.network.asDbModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class RouteRepositoryImpl: RouteRepository {
+
+class RouteRepositoryImpl @Inject constructor(): RouteRepository {
 
     override var route: Route? = null
         private set

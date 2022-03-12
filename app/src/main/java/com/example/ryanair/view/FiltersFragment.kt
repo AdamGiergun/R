@@ -30,20 +30,16 @@ class FiltersFragment : Fragment(),
     ): View {
         return FragmentFiltersBinding.inflate(inflater).run {
             lifecycleOwner = viewLifecycleOwner
-
             viewModel = mainViewModel
-            mainViewModel.search.observe(viewLifecycleOwner) { search ->
+
+            searchButton.setOnClickListener {
                 mainViewModel.filters.value?.let { filters ->
-                    if (!mainViewModel.error && search) {
+                    if (!mainViewModel.error) {
                         findNavController().navigate(
                             FiltersFragmentDirections.actionFiltersFragmentToRouteFragment(filters)
                         )
                     }
                 }
-            }
-
-            searchButton.setOnClickListener {
-                mainViewModel.search()
             }
 
             originSpinner.apply {
@@ -76,7 +72,6 @@ class FiltersFragment : Fragment(),
                     setSelection(spinnerDefaultPosition)
                 }
             }
-
             root
         }
     }
@@ -99,4 +94,3 @@ private fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: (T) -> 
         }
     })
 }
-

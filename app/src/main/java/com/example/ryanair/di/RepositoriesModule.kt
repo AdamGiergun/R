@@ -15,5 +15,4 @@ class RepositoriesModule {
     fun provideRepositories(filtersRepository: FiltersRepository): Repositories {
         return Repositories(filtersRepository)
     }
-
 }

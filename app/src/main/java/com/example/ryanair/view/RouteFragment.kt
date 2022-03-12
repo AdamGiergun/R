@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.ryanair.databinding.FragmentRouteBinding
-import com.example.ryanair.viewModel.MainViewModel
+import com.example.ryanair.viewModel.RouteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RouteFragment : Fragment() {
 
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val routeViewModel: RouteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,7 +22,10 @@ class RouteFragment : Fragment() {
     ): View {
         return FragmentRouteBinding.inflate(inflater).run {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = mainViewModel
+            viewModel = routeViewModel
+            routeViewModel.initRoute(
+                RouteFragmentArgs.fromBundle(requireArguments()).filters
+            )
             root
         }
     }

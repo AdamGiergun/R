@@ -6,11 +6,11 @@
 
         <variable
             name="viewModel"
-            type="com.example.ryanair.viewModel.MainViewModel" />
+            type="com.example.ryanair.viewModel.RouteViewModel" />
     </data>
 
     <TextView
-        android:id="@+id/result_text"
+        android:id="@+id/route_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@{viewModel.text}"

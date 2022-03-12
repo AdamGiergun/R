@@ -37,15 +37,6 @@ class MainViewModel @Inject constructor(private val repositories: Repositories) 
     val text: LiveData<String>
         get() = _text
 
-    private val _search = MutableLiveData(false)
-    val search: LiveData<Boolean>
-        get() = _search
-
-    fun search() {
-        error = false
-        initRoute()
-    }
-
     val filters = repositories.filtersRepository.filters.asLiveData()
 
     val defaultOrigin: String
@@ -92,27 +83,6 @@ class MainViewModel @Inject constructor(private val repositories: Repositories) 
                         it.code
                     )
                 }?.sortedBy { it.fullName }?.toTypedArray() ?: emptyArray()
-            }
-        }
-    }
-
-    private fun initRoute() = viewModelScope.launch {
-        error = false
-        var newText = ""
-        filters.value?.let { filters ->
-            repositories.routeRepository.run {
-                refresh(filters)
-                _errorText.value = this.errorText
-                this@MainViewModel.error = this.error
-                if (!this.error) {
-                    this.route?.let { newRoute ->
-                        newText += newRoute.toString()
-                        _text.value = newText
-                        _route.value = newRoute
-                    }
-                    _search.value = true
-                    _search.value = false
-                }
             }
         }
     }
