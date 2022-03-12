@@ -1,4 +1,4 @@
-package com.example.ryanair.view
+package com.example.ryanair.viewModel
 
 import androidx.lifecycle.*
 import com.example.ryanair.db.Route

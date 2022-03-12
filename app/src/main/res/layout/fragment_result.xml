@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.ryanair.view.MainViewModel" />
+            type="com.example.ryanair.viewModel.MainViewModel" />
     </data>
 
     <TextView
