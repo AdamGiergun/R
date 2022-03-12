@@ -1,12 +1,10 @@
 package com.example.ryanair.repository
 
 import com.example.ryanair.db.Filters
-import com.example.ryanair.db.FiltersDao
-import javax.inject.Inject
 
-class FiltersRepository @Inject constructor(private val filtersDao: FiltersDao) {
+interface FiltersRepository {
 
-    fun getFilters() = filtersDao.get()
+    fun getFilters() : Filters
 
-    fun update(filters: Filters) = filtersDao.update(filters)
+    fun update(filters: Filters)
 }
