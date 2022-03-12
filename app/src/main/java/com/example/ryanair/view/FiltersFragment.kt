@@ -36,7 +36,7 @@ class FiltersFragment : Fragment(),
                 mainViewModel.filters.value?.let { filters ->
                     if (!mainViewModel.error && search) {
                         findNavController().navigate(
-                            FiltersFragmentDirections.actionFiltersFragmentToRouteFragment()
+                            FiltersFragmentDirections.actionFiltersFragmentToRouteFragment(filters)
                         )
                     }
                 }

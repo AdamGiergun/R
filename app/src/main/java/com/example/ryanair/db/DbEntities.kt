@@ -1,7 +1,9 @@
 package com.example.ryanair.db
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
 @Entity
 data class Station constructor(
@@ -111,6 +113,7 @@ data class Segment constructor(
 )
 
 @Entity
+@Parcelize
 data class Filters constructor(
     @PrimaryKey(autoGenerate = true) val id: Int,
     var dateOut: String,
@@ -122,4 +125,4 @@ data class Filters constructor(
     var infant: Int,
     val termsOfUse: String = "AGREED",
     val roundtrip: Boolean = false
-)
+): Parcelable
