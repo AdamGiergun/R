@@ -11,24 +11,23 @@ class MockRouteRepositoryImpl : RouteRepository {
 
     override var route: Route? = null
         private set
-
     override var error: Boolean = false
         private set
-
-    override var errorText: String? = null
+    override var errorInfoId: Int = 0
+        private set
+    override var errorText: String = ""
         private set
 
-    lateinit var reader: MockResponseFileReader
+    override suspend fun refresh(newFilters: Filters?) {}
 
-    override suspend fun refresh(filters: Filters) {
+    fun initRoute(reader: MockResponseFileReader) {
         try {
             val moshi: Moshi = Moshi.Builder().build()
             val adapter = moshi.adapter(RouteJson::class.java)
-            route = adapter.fromJson(reader.content)?.asDbModel()
-            errorText = null
-            error = false
+            val routeJson = adapter.fromJson(reader.content)
+            route = routeJson?.asDbModel()
         } catch (e: Exception) {
-            errorText = e.localizedMessage
+            errorText = e.localizedMessage ?: "Unknown error"
             error = true
         }
     }

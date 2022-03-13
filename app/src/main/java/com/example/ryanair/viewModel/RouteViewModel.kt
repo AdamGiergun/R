@@ -43,7 +43,7 @@ class RouteViewModel @Inject constructor(
                     // TODO implement RecyclerView
                     _errorText.value = route.value.toString()
                 }
-            }.join()
+            }
         }
     }
 }

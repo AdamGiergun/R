@@ -1,6 +1,7 @@
 package com.example.ryanair.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.filters.SmallTest
 import com.example.ryanair.repository.FakeFiltersRepositoryImpl
 import com.example.ryanair.repository.MockStationsRepositoryImpl
 import com.example.ryanair.util.MainCoroutineRule
@@ -8,13 +9,14 @@ import com.example.ryanair.util.MockResponseFileReader
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
+@SmallTest
 class MainViewModelTest {
 
     @get:Rule
@@ -38,12 +40,12 @@ class MainViewModelTest {
                 } else {
                     MatcherAssert.assertThat(
                         viewModelStations,
-                        CoreMatchers.`is`(CoreMatchers.notNullValue())
+                        `is`(notNullValue())
                     )
-                    MatcherAssert.assertThat(viewModelStations.size, CoreMatchers.`is`(1))
+                    MatcherAssert.assertThat(viewModelStations.size, `is`(1))
                     MatcherAssert.assertThat(
                         viewModelStations.first().code,
-                        CoreMatchers.`is`("AAL")
+                        `is`("AAL")
                     )
                 }
             }
@@ -57,11 +59,8 @@ class MainViewModelTest {
             MainViewModel(fakeFiltersRepositoryImpl, mockStationsRepository).run {
                 advanceUntilIdle()
 
-                MatcherAssert.assertThat(
-                    stations.value,
-                    CoreMatchers.`is`(CoreMatchers.nullValue())
-                )
-                MatcherAssert.assertThat(error, CoreMatchers.`is`(true))
+                MatcherAssert.assertThat( stations.value, `is`(nullValue()))
+                MatcherAssert.assertThat(error, `is`(true))
             }
         }
 }
