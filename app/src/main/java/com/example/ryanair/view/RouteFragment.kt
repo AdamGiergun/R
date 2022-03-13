@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.example.ryanair.databinding.FragmentRouteBinding
 import com.example.ryanair.viewModel.RouteViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,6 +16,7 @@ class RouteFragment : Fragment() {
 
     private val routeViewModel: RouteViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,7 +25,8 @@ class RouteFragment : Fragment() {
         return FragmentRouteBinding.inflate(inflater).run {
             lifecycleOwner = viewLifecycleOwner
             routeViewModel.also { rvm ->
-                val filters = RouteFragmentArgs.fromBundle(requireArguments()).filters
+                val args: RouteFragmentArgs by navArgs()
+                val filters = args.filters
                 rvm.refreshRoute(filters)
 
                 viewModel = rvm
