@@ -29,12 +29,20 @@ A project created as a task to be carried out in the recruitment process.
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] KISS (while your lips are still red) - (a bad joke with double sense ;-)
-- [] More tests for the current code
-- [] RecyclerView for Flights
-    - [] Tests
-- [] Completing the implementation of filter selector
-    - [] Tests
+- [/] KISS (while your lips are still red) - (a bad joke with double sense ;-)
+- [/] Tests!
+- [*] Parsing JSON file
+- [*] APIs for getting external data
+- [*] Data repositories
+- [*] ViewModels
+- [/] Bind data
+- [/] App styling
+- [*] Navigation
+- [*] Dependency Injection with Hilt
+- [/] Room database
+- [ ] Caching some external data i.e. for the offline use
+- [ ] RecyclerView for Flights
+- [ ] Completing the implementation of filter selectors
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
