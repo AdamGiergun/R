@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.ryanair.databinding.FragmentRouteBinding
 import com.example.ryanair.viewModel.RouteViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RouteFragment : Fragment() {
 
-    private val routeViewModel: RouteViewModel by viewModels()
-
+    @Inject
+    lateinit var routeViewModel: RouteViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,

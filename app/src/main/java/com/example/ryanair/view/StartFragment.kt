@@ -7,17 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ryanair.R
 import com.example.ryanair.databinding.FragmentStartBinding
 import com.example.ryanair.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class StartFragment : Fragment() {
 
-    private val mainViewModel: MainViewModel by activityViewModels()
+    @Inject
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +41,7 @@ class StartFragment : Fragment() {
                 }
             }
             mainViewModel.stations.observe(viewLifecycleOwner) {
-                if (!mainViewModel.error ) {
+                if (!mainViewModel.error) {
                     findNavController().navigate(
                         StartFragmentDirections.actionStartFragmentToFiltersFragment()
                     )

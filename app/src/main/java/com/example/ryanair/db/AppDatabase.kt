@@ -28,6 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
                         Filters(
                             0,
                             Calendar.getInstance().run {
+                                add(Calendar.DAY_OF_YEAR, 30)
                                 val formatter =
                                     SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
                                 formatter.format(time)

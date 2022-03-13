@@ -17,12 +17,14 @@ import com.example.ryanair.R
 import com.example.ryanair.databinding.FragmentFiltersBinding
 import com.example.ryanair.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FiltersFragment : Fragment(),
     AdapterView.OnItemSelectedListener {
 
-    private val mainViewModel: MainViewModel by activityViewModels()
+    @Inject
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
