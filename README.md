@@ -31,14 +31,14 @@ A project created as a task to be carried out in the recruitment process.
 
 - [ ] KISS (while your lips are still red) - (a bad joke with double sense ;-)
 - [ ] Tests!
-- [*] Parsing JSON file
-- [*] APIs for getting external data
-- [*] Data repositories
-- [*] ViewModels
+- [x] Parsing JSON file
+- [x] APIs for getting external data
+- [x] Data repositories
+- [x] ViewModels
 - [ ] Bind data
 - [ ] App styling
-- [*] Navigation
-- [*] Dependency Injection with Hilt
+- [x] Navigation
+- [x] Dependency Injection with Hilt
 - [ ] Room database
 - [ ] Caching some external data i.e. for the offline use
 - [ ] RecyclerView for Flights
