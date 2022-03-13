@@ -29,17 +29,17 @@ A project created as a task to be carried out in the recruitment process.
 <!-- ROADMAP -->
 ## Roadmap
 
-- [/] KISS (while your lips are still red) - (a bad joke with double sense ;-)
-- [/] Tests!
+- [ ] KISS (while your lips are still red) - (a bad joke with double sense ;-)
+- [ ] Tests!
 - [*] Parsing JSON file
 - [*] APIs for getting external data
 - [*] Data repositories
 - [*] ViewModels
-- [/] Bind data
-- [/] App styling
+- [ ] Bind data
+- [ ] App styling
 - [*] Navigation
 - [*] Dependency Injection with Hilt
-- [/] Room database
+- [ ] Room database
 - [ ] Caching some external data i.e. for the offline use
 - [ ] RecyclerView for Flights
 - [ ] Completing the implementation of filter selectors
