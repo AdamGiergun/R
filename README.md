@@ -1,4 +1,4 @@
-<h2 align="center">Ryanair challenge app</h2>
+<h1 align="center">Ryanair challenge app</h1>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -22,19 +22,19 @@ A project created as a task to be carried out in the recruitment process.
 
 ### Built With
 
-* [Android Studio 2021.1.1 Patch 2](https://developer.android.com/studio)
+* [Android Studio 2021.1.1.22](https://developer.android.com/studio)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [TODO] KISS (while your lips are still red) - (a bad joke with double sense ;-)
-- [TODO] More tests for current code
-- [TODO] RecyclerView for Flights
-    - [TODO] Tests
-- [TODO] Completing the implementation of filter selector
-    - [TODO] Tests
+- [] KISS (while your lips are still red) - (a bad joke with double sense ;-)
+- [] More tests for the current code
+- [] RecyclerView for Flights
+    - [] Tests
+- [] Completing the implementation of filter selector
+    - [] Tests
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
