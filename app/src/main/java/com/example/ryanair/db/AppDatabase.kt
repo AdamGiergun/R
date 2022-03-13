@@ -56,7 +56,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_database"
+                    "app_database.db"
                 )
                     .addCallback(
                         AppDatabaseCallback(
@@ -64,8 +64,8 @@ abstract class AppDatabase : RoomDatabase() {
                         )
                     )
                     .build()
-                INSTANCE = instance
 
+                INSTANCE = instance
                 instance
             }
         }

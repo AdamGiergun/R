@@ -1,10 +1,11 @@
 package com.example.ryanair.repository
 
 import com.example.ryanair.db.Filters
+import kotlinx.coroutines.flow.Flow
 
 interface FiltersRepository {
 
-    fun getFilters() : Filters
+    val filters: Flow<Filters?>
 
-    fun update(filters: Filters)
+    suspend fun update(newFilters: Filters)
 }

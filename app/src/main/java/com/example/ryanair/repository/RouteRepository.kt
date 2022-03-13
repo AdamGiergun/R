@@ -9,5 +9,5 @@ interface RouteRepository {
     val errorInfoId: Int
     val errorText: String
 
-    suspend fun refresh(filters: Filters)
+    suspend fun refresh(newFilters: Filters?)
 }

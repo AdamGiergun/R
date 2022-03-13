@@ -23,6 +23,9 @@ class RouteFragment : Fragment() {
         return FragmentRouteBinding.inflate(inflater).run {
             lifecycleOwner = viewLifecycleOwner
             routeViewModel.also { rvm ->
+                val filters = RouteFragmentArgs.fromBundle(requireArguments()).filters
+                rvm.refreshRoute(filters)
+
                 viewModel = rvm
                 rvm.errorText.observe(viewLifecycleOwner) {
                     errorText.text = if (rvm.errorTextId > 0)

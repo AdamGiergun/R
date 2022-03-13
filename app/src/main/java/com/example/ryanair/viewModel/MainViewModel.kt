@@ -1,17 +1,12 @@
 package com.example.ryanair.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.ryanair.db.Filters
+import androidx.lifecycle.*
 import com.example.ryanair.db.SimpleStation
 import com.example.ryanair.db.Station
 import com.example.ryanair.repository.FiltersRepository
 import com.example.ryanair.repository.StationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +17,8 @@ class MainViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _stations = MutableLiveData<List<Station>>()
-    val stations: LiveData<List<Station>>
+    private val _stations = MutableLiveData<List<Station>?>(null)
+    val stations: LiveData<List<Station>?>
         get() = _stations
 
     private lateinit var simpleStationArray: Array<SimpleStation>
@@ -41,16 +36,13 @@ class MainViewModel @Inject constructor(
     val text: LiveData<String>
         get() = _text
 
-    lateinit var filters: Filters
-    private val _filtersInitialized = MutableLiveData(false)
-    val filtersInitialized: LiveData<Boolean>
-        get() = _filtersInitialized
+    val filters = filtersRepository.filters.asLiveData(viewModelScope.coroutineContext)
 
     val defaultOriginPosition: Int
-        get() = getDefaultStationPosition(filters.origin)
+        get() = getDefaultStationPosition(filters.value?.origin ?: "DUB")
 
     val defaultDestinationPosition: Int
-        get() = getDefaultStationPosition(filters.destination)
+        get() = getDefaultStationPosition(filters.value?.destination ?: "STN")
 
     private fun getDefaultStationPosition(searchedCode: String): Int {
         val element = simpleStationArray.first { it.code == searchedCode }
@@ -58,26 +50,26 @@ class MainViewModel @Inject constructor(
     }
 
     fun setOrigin(position: Int) = viewModelScope.launch(Dispatchers.IO) {
-        filters.origin = simpleStationArray[position].code
-        filtersRepository.update(filters)
+        filters.value?.run {
+            val newFilters = this.copy(origin = simpleStationArray[position].code)
+            filtersRepository.update(newFilters)
+        }
     }
 
     fun setDestination(position: Int) = viewModelScope.launch(Dispatchers.IO) {
-        filters.destination = simpleStationArray[position].code
-        filtersRepository.update(filters)
+        filters.value?.run {
+            val newFilters = this.copy(destination = simpleStationArray[position].code)
+            filtersRepository.update(newFilters)
+        }
     }
 
     init {
-        viewModelScope.launch {
-            listOf(
-                viewModelScope.launch(Dispatchers.IO) {
-                    filters = filtersRepository.getFilters()
-                },
-                initStations()
-            ).joinAll()
-            _filtersInitialized.value = true
-        }
+        initStations()
     }
+
+    private val _stationsInitialized = MutableLiveData(false)
+    val stationsInitialized: LiveData<Boolean>
+        get() = _stationsInitialized
 
     fun initStations() = viewModelScope.launch {
         error = false
@@ -94,6 +86,7 @@ class MainViewModel @Inject constructor(
                     )
                 }?.sortedBy { it.fullName }?.toTypedArray() ?: emptyArray()
             }
+            _stationsInitialized.value = true
         }
     }
 }

@@ -1,11 +1,8 @@
 package com.example.ryanair.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
-import com.example.ryanair.repository.FiltersRepository
 import com.example.ryanair.repository.RouteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,8 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RouteViewModel @Inject constructor(
-    private val routeRepository: RouteRepository,
-    private val filtersRepository: FiltersRepository
+    private val routeRepository: RouteRepository
 ) :
     ViewModel() {
 
@@ -34,9 +30,9 @@ class RouteViewModel @Inject constructor(
     var errorTextId: Int = 0
         private set
 
-    init {
+    fun refreshRoute(filters: Filters?) {
         viewModelScope.launch(Dispatchers.IO) {
-            routeRepository.refresh(filtersRepository.getFilters())
+            routeRepository.refresh(filters)
             viewModelScope.launch {
                 error = routeRepository.error
                 if (error) {
