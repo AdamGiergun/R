@@ -43,6 +43,7 @@ A project created as a task to be carried out in the recruitment process.
 - [ ] Caching some external data i.e. for the offline use
 - [ ] RecyclerView for Flights
 - [ ] Completing the implementation of filter selectors
+- [ ] Strip down data classes to leave only necessary things
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
