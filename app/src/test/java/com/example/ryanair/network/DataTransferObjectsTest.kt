@@ -1,13 +1,16 @@
 package com.example.ryanair.network
 
+import androidx.test.filters.SmallTest
 import com.example.ryanair.util.MockResponseFileReader
 import com.squareup.moshi.Moshi
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
+@SmallTest
 @RunWith(MockitoJUnitRunner::class)
 class DataTransferObjectsTest {
 
@@ -23,6 +26,7 @@ class DataTransferObjectsTest {
         val moshi: Moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(StationsContainer::class.java)
         val stations = adapter.fromJson(reader.content)?.stations
+
         assertThat(stations, `is`(notNullValue()))
         assertThat(stations?.size ?: 0, `is`(1))
         assertThat(stations?.first()?.code ?: "", `is`("AAL"))
@@ -34,6 +38,7 @@ class DataTransferObjectsTest {
         val moshi: Moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(StationsContainer::class.java)
         val stations = adapter.fromJson(reader.content)?.asDbModel() ?: emptyList()
+
         assertThat(stations, `is`(notNullValue()))
         assertThat(stations.size, `is`(1))
         assertThat(stations.first().code, `is`("AAL"))
@@ -51,8 +56,12 @@ class DataTransferObjectsTest {
         val moshi: Moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(RouteJson::class.java)
         val route = adapter.fromJson(reader.content)
+
         assertThat(route, `is`(notNullValue()))
-        assertThat(route?.termsOfUse, `is`("https://www.ryanair.com/ie/en/corporate/terms-of-use=AGREED"))
+        assertThat(
+            route?.termsOfUse,
+            `is`("https://www.ryanair.com/ie/en/corporate/terms-of-use=AGREED")
+        )
     }
 
     @Test
@@ -61,7 +70,11 @@ class DataTransferObjectsTest {
         val moshi: Moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(RouteJson::class.java)
         val route = adapter.fromJson(reader.content)?.asDbModel()
+
         assertThat(route, `is`(notNullValue()))
-        assertThat(route?.termsOfUse ?: "", `is`("https://www.ryanair.com/ie/en/corporate/terms-of-use=AGREED"))
+        assertThat(
+            route?.termsOfUse ?: "",
+            `is`("https://www.ryanair.com/ie/en/corporate/terms-of-use=AGREED")
+        )
     }
 }
