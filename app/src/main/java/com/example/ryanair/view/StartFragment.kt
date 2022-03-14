@@ -40,8 +40,8 @@ class StartFragment : Fragment() {
                     retryButton.visibility = View.VISIBLE
                 }
             }
-            mainViewModel.stations.observe(viewLifecycleOwner) {
-                if (!mainViewModel.error) {
+            mainViewModel.stationsInitialized.observe(viewLifecycleOwner) {
+                if (it) {
                     findNavController().navigate(
                         StartFragmentDirections.actionStartFragmentToFiltersFragment()
                     )
