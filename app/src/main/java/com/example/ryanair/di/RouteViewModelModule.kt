@@ -1,5 +1,6 @@
 package com.example.ryanair.di
 
+import com.example.ryanair.repository.FiltersRepository
 import com.example.ryanair.repository.RouteRepository
 import com.example.ryanair.viewModel.RouteViewModel
 import dagger.Module
@@ -14,7 +15,10 @@ class RouteViewModelModule {
 
     @Provides
     @FragmentScoped
-    fun providesRouteViewModel(routeRepository: RouteRepository): RouteViewModel {
-        return RouteViewModel(routeRepository)
+    fun providesRouteViewModel(
+        routeRepository: RouteRepository,
+        filtersRepository: FiltersRepository
+    ): RouteViewModel {
+        return RouteViewModel(routeRepository, filtersRepository)
     }
 }

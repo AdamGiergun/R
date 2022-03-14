@@ -36,7 +36,7 @@ class FiltersFragment : Fragment(),
             searchButton.setOnClickListener {
                 if (mainViewModel.error.value != true) {
                     findNavController().navigate(
-                        FiltersFragmentDirections.actionFiltersFragmentToRouteFragment(mainViewModel.filters.value)
+                        FiltersFragmentDirections.actionFiltersFragmentToRouteFragment()
                     )
                 }
             }
