@@ -5,11 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.ryanair.util.DefaultFilters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Database(entities = [Filters::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
@@ -24,23 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    database.filtersDao().insert(
-                        Filters(
-                            0,
-                            Calendar.getInstance().run {
-                                add(Calendar.DAY_OF_YEAR, 30)
-                                val formatter =
-                                    SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                                formatter.format(time)
-                            },
-                            "DUB",
-                            "STN",
-                            1,
-                            0,
-                            0,
-                            0
-                        )
-                    )
+                    database.filtersDao().insert(DefaultFilters.value)
                 }
             }
         }

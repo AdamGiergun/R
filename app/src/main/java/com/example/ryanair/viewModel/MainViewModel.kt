@@ -5,6 +5,7 @@ import com.example.ryanair.db.SimpleStation
 import com.example.ryanair.db.Station
 import com.example.ryanair.repository.FiltersRepository
 import com.example.ryanair.repository.StationsRepository
+import com.example.ryanair.util.DefaultFilters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,10 +40,10 @@ class MainViewModel @Inject constructor(
     val filters = filtersRepository.filters.asLiveData(viewModelScope.coroutineContext)
 
     val defaultOriginPosition: Int
-        get() = getDefaultStationPosition(filters.value?.origin ?: "DUB")
+        get() = getDefaultStationPosition(filters.value?.origin ?: DefaultFilters.value.origin)
 
     val defaultDestinationPosition: Int
-        get() = getDefaultStationPosition(filters.value?.destination ?: "STN")
+        get() = getDefaultStationPosition(filters.value?.destination ?: DefaultFilters.value.destination)
 
     private fun getDefaultStationPosition(searchedCode: String): Int {
         val element = simpleStationArray.first { it.code == searchedCode }
