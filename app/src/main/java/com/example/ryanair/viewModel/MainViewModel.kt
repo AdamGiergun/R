@@ -1,6 +1,9 @@
 package com.example.ryanair.viewModel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.ryanair.db.SimpleStation
 import com.example.ryanair.db.Station
 import com.example.ryanair.repository.FiltersRepository
@@ -37,7 +40,7 @@ class MainViewModel @Inject constructor(
     val text: LiveData<String>
         get() = _text
 
-    val filters = filtersRepository.filters.asLiveData(viewModelScope.coroutineContext)
+    val filters = filtersRepository.filters
 
     val defaultOriginPosition: Int
         get() = getDefaultStationPosition(

@@ -1,21 +1,25 @@
 package com.example.ryanair.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import com.example.ryanair.db.Filters
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class StubFiltersRepositoryImpl : FiltersRepository {
 
-    override val filters: Flow<Filters?> = flow { Filters(
-        0,
-        "2021-12-30",
-        "DUB",
-        "STN",
-        1,
-        0,
-        0,
-        0
-    ) }
+    override val filters: LiveData<Filters?> = liveData {
+        emit(
+            Filters(
+                0,
+                "2021-12-30",
+                "DUB",
+                "STN",
+                1,
+                0,
+                0,
+                0
+            )
+        )
+    }
 
     override suspend fun update(newFilters: Filters) {}
 }

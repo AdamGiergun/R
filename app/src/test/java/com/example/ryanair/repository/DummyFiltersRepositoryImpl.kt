@@ -1,12 +1,12 @@
 package com.example.ryanair.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import com.example.ryanair.db.Filters
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class DummyFiltersRepositoryImpl : FiltersRepository {
 
-    override val filters: Flow<Filters?> = flow { emit(null) }
+    override val filters: LiveData<Filters?> = liveData { emit(null) }
 
     override suspend fun update(newFilters: Filters) {}
 }

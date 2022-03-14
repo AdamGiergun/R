@@ -6,7 +6,6 @@ import com.example.ryanair.repository.FakeRouteRepositoryImpl
 import com.example.ryanair.util.MainCoroutineRule
 import com.example.ryanair.util.MockResponseFileReader
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers
@@ -32,7 +31,7 @@ class RouteViewModelTest {
         runTest {
             fakeRouteRepositoryImpl.refresh(MockResponseFileReader("route.json"))
             RouteViewModel(fakeRouteRepositoryImpl).run {
-                refreshRoute(dummyFiltersRepositoryImpl.filters.first())
+                refreshRoute(dummyFiltersRepositoryImpl.filters.value)
                 advanceUntilIdle()
 
                 assertThat(
@@ -48,7 +47,7 @@ class RouteViewModelTest {
         runTest {
             fakeRouteRepositoryImpl.refresh(MockResponseFileReader("fail.json"))
             RouteViewModel(fakeRouteRepositoryImpl).run {
-                refreshRoute(dummyFiltersRepositoryImpl.filters.first())
+                refreshRoute(dummyFiltersRepositoryImpl.filters.value)
                 advanceUntilIdle()
 
                 assertThat(route.value, `is`(CoreMatchers.nullValue()))

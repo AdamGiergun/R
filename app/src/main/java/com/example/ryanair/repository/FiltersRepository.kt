@@ -1,11 +1,11 @@
 package com.example.ryanair.repository
 
+import androidx.lifecycle.LiveData
 import com.example.ryanair.db.Filters
-import kotlinx.coroutines.flow.Flow
 
 interface FiltersRepository {
 
-    val filters: Flow<Filters?>
+    val filters: LiveData<Filters?>
 
     suspend fun update(newFilters: Filters)
 }
