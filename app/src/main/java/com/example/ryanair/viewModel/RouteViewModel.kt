@@ -1,10 +1,8 @@
 package com.example.ryanair.viewModel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ryanair.db.Filters
-import com.example.ryanair.db.Route
 import com.example.ryanair.repository.RouteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,17 +14,13 @@ class RouteViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val route: LiveData<Route?>
-        get() = routeRepository.route
+    val route = routeRepository.route
 
-    val error : LiveData<Boolean?>
-        get() = routeRepository.error
+    val error = routeRepository.error
 
-    val errorText: LiveData<String?>
-        get() = routeRepository.errorText
+    val errorText = routeRepository.errorText
 
-    val errorInfoId: LiveData<Int?>
-        get() = routeRepository.errorInfoId
+    val errorInfoId = routeRepository.errorInfoId
 
     fun refreshRoute(filters: Filters?) {
         viewModelScope.launch {
