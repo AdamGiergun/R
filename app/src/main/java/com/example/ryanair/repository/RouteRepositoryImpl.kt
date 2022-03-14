@@ -29,6 +29,11 @@ class RouteRepositoryImpl @Inject constructor() : RouteRepository {
         get() = _errorText
 
     override suspend fun refresh(newFilters: Filters?) {
+        _route.value = null
+        _error.value = null
+        _errorInfoId.value = null
+        _errorText.value = null
+
         try {
             (newFilters ?: DefaultFilters.value).run {
                 _route.value = RyanairApi.retrofitRouteApiService.getRoute(
@@ -51,8 +56,8 @@ class RouteRepositoryImpl @Inject constructor() : RouteRepository {
             }
         } catch (e: Exception) {
             _errorInfoId.value = when {
-                e.localizedMessage?.contains("HTTP 404")
-                    ?: false -> R.string.error_route_not_serviced
+                e.localizedMessage?.contains("HTTP 404") ?: false ->
+                    R.string.error_route_not_serviced
                 else -> {
                     _errorText.value = e.localizedMessage ?: ""
                     R.string.error_internet

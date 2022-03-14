@@ -30,10 +30,10 @@ class RouteFragment : Fragment() {
                 rvm.refreshRoute(filters)
 
                 viewModel = rvm
-                rvm.errorText.observe(viewLifecycleOwner) {
-                    val errorInfoIdValue = rvm.errorInfoId.value ?: 0
-                    errorText.text = if (errorInfoIdValue > 0)
-                        getString(rvm.errorInfoId.value ?: 0, rvm.errorText.value)
+                rvm.errorInfoId.observe(viewLifecycleOwner) {
+                    val id = it ?: 0
+                    errorText.text = if (id > 0)
+                        getString(id, rvm.errorText.value)
                     else
                         rvm.errorText.value
                 }
