@@ -2,17 +2,12 @@ package com.example.ryanair.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import com.example.ryanair.R
 import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
 import com.example.ryanair.network.RyanairApi
 import com.example.ryanair.network.asDbModel
 import com.example.ryanair.util.DefaultFilters
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 class RouteRepositoryImpl @Inject constructor() : RouteRepository {

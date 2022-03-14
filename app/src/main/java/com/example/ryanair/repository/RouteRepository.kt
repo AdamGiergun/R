@@ -1,7 +1,6 @@
 package com.example.ryanair.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
 
