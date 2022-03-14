@@ -59,7 +59,7 @@ class MainViewModelTest {
             MainViewModel(dummyFiltersRepositoryImpl, mockStationsRepository).run {
                 advanceUntilIdle()
 
-                MatcherAssert.assertThat( stations.value, `is`(nullValue()))
+                MatcherAssert.assertThat(stations.value, `is`(nullValue()))
                 MatcherAssert.assertThat(error.value, `is`(true))
             }
         }
