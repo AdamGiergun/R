@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group
+        android:name="move_group"
+        android:translateX="0.0">
+        <path
+            android:fillColor="@color/ryanair_background"
+            android:pathData="M16,2H14L9,10.5H3.5C2.67,10.5 2,11.17 2,12c0,0.83 0.67,1.5 1.5,1.5H9l5,8.5h2L13.5,13.5H19L20.5,16H22L21,12 22,8H20.5L19,10.5h-5.5z" />
+    </group>
+</vector>

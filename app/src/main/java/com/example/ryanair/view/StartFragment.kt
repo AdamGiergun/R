@@ -1,10 +1,14 @@
 package com.example.ryanair.view
 
+import android.animation.ObjectAnimator
+import android.animation.TimeInterpolator
+import android.animation.ValueAnimator
 import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -26,9 +30,12 @@ class StartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         return FragmentStartBinding.inflate(inflater).run {
-            ResourcesCompat.getDrawable(resources, R.drawable.animatorvectordrawable, null).let {
-                loadingImg.setImageDrawable(it)
-                if (it is Animatable) it.start()
+            ObjectAnimator.ofFloat(loadingImg, "x", 1000f, -1000f).apply {
+                duration = 2000
+                repeatCount = ValueAnimator.INFINITE
+                repeatMode = ValueAnimator.RESTART
+                interpolator = LinearInterpolator()
+                start()
             }
             mainViewModel.errorText.observe(viewLifecycleOwner) {
                 if (it != null) {
