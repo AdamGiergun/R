@@ -31,8 +31,9 @@ class RouteFragment : Fragment() {
 
                 viewModel = rvm
                 rvm.errorText.observe(viewLifecycleOwner) {
-                    errorText.text = if (rvm.errorTextId > 0)
-                        getString(rvm.errorTextId, rvm.errorText.value)
+                    val errorInfoIdValue = rvm.errorInfoId.value ?: 0
+                    errorText.text = if (errorInfoIdValue > 0)
+                        getString(rvm.errorInfoId.value ?: 0, rvm.errorText.value)
                     else
                         rvm.errorText.value
                 }

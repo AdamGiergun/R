@@ -1,79 +1,72 @@
 package com.example.ryanair.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.example.ryanair.R
 import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
 import com.example.ryanair.network.RyanairApi
 import com.example.ryanair.network.asDbModel
+import com.example.ryanair.util.DefaultFilters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-
 class RouteRepositoryImpl @Inject constructor() : RouteRepository {
 
-    override var route: Route? = null
-        private set
+    private val _route = MutableLiveData<Route?>()
+    override val route: LiveData<Route?>
+        get() = _route
 
-    override var error = false
-        private set
+    private val _error = MutableLiveData<Boolean?>()
+    override val error: LiveData<Boolean?>
+        get() = _error
 
-    override var errorInfoId: Int = 0
-        private set
+    private val _errorInfoId = MutableLiveData<Int?>()
+    override val errorInfoId: LiveData<Int?>
+        get() = _errorInfoId
 
-    override var errorText: String = ""
-        private set
+    private val _errorText = MutableLiveData<String?>()
+    override val errorText: LiveData<String?>
+        get() = _errorText
 
     override suspend fun refresh(newFilters: Filters?) {
-        withContext(Dispatchers.IO) {
-            try {
-                val filters: Filters = newFilters ?: Filters(
-                    0,
-                    Calendar.getInstance().run {
-                        val formatter =
-                            SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                        formatter.format(time)
-                    },
-                    "DUB",
-                    "STN",
-                    1,
-                    0,
-                    0,
-                    0
-                )
-
-                filters.run {
-                    route = RyanairApi.retrofitRouteApiService.getRoute(
-                        dateOut,
-                        origin,
-                        destination,
-                        adult,
-                        child,
-                        teen,
-                        infant,
-                        termsOfUse,
-                        if (roundtrip) "TRUE" else "FALSE"
-                    ).asDbModel()
-                        .also {
-                            if (it.trips[0].dates[0].flights.isEmpty()) {
-                                errorInfoId = R.string.error_no_flights_on_selected_date
-                                error = true
-                            }
+        try {
+            (newFilters ?: DefaultFilters.value).run {
+                _route.value = RyanairApi.retrofitRouteApiService.getRoute(
+                    dateOut,
+                    origin,
+                    destination,
+                    adult,
+                    child,
+                    teen,
+                    infant,
+                    termsOfUse,
+                    if (roundtrip) "TRUE" else "FALSE"
+                ).asDbModel()
+                    .also {
+                        if (it.trips[0].dates[0].flights.isEmpty()) {
+                            _errorInfoId.value = R.string.error_no_flights_on_selected_date
+                            _error.value = true
                         }
-                }
-            } catch (e: Exception) {
-                errorInfoId = when {
-                    e.localizedMessage?.contains("HTTP 404")
-                        ?: false -> R.string.error_route_not_serviced
-                    else -> {
-                        errorText = e.localizedMessage ?: ""
-                        R.string.error_internet
                     }
-                }
-                error = true
             }
+        } catch (e: Exception) {
+            _errorInfoId.value = when {
+                e.localizedMessage?.contains("HTTP 404")
+                    ?: false -> R.string.error_route_not_serviced
+                else -> {
+                    _errorText.value = e.localizedMessage ?: ""
+                    R.string.error_internet
+                }
+            }
+            _error.value = true
+            _route.value = null
         }
     }
 }
+
+

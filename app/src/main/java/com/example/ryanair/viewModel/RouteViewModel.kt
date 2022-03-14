@@ -11,39 +11,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RouteViewModel @Inject constructor(
-    private val routeRepository: RouteRepository
+    val routeRepository: RouteRepository
 ) :
     ViewModel() {
 
-    private val _route = MutableLiveData<Route>()
-    @Suppress("unused")
-    val route: LiveData<Route>
-        get() = _route
+    val route: LiveData<Route?>
+        get() = routeRepository.route
 
-    var error = false
-        private set
+    val error : LiveData<Boolean?>
+        get() = routeRepository.error
 
-    private val _errorText = MutableLiveData<String>()
-    val errorText: LiveData<String>
-        get() = _errorText
+    val errorText: LiveData<String?>
+        get() = routeRepository.errorText
 
-    var errorTextId: Int = 0
-        private set
+    val errorInfoId: LiveData<Int?>
+        get() = routeRepository.errorInfoId
 
     fun refreshRoute(filters: Filters?) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch() {
             routeRepository.refresh(filters)
-            viewModelScope.launch {
-                error = routeRepository.error
-                if (error) {
-                    errorTextId = routeRepository.errorInfoId
-                    _errorText.value = routeRepository.errorText
-                } else {
-                    _route.value = routeRepository.route
-                    // TODO implement RecyclerView
-                    _errorText.value = route.value.toString()
-                }
-            }
         }
     }
 }

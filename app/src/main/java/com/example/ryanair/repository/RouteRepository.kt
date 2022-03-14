@@ -1,13 +1,16 @@
 package com.example.ryanair.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
 
 interface RouteRepository {
-    val route: Route?
-    val error: Boolean
-    val errorInfoId: Int
-    val errorText: String
+
+    val route: LiveData<Route?>
+    val error: LiveData<Boolean?>
+    val errorInfoId: LiveData<Int?>
+    val errorText: LiveData<String?>
 
     suspend fun refresh(newFilters: Filters?)
 }
