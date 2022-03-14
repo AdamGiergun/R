@@ -4,7 +4,7 @@ import com.example.ryanair.db.Filters
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FakeFiltersRepositoryImpl : FiltersRepository {
+class DummyFiltersRepositoryImpl : FiltersRepository {
 
     override val filters: Flow<Filters?> = flow { emit(null) }
 

@@ -2,7 +2,7 @@ package com.example.ryanair.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
-import com.example.ryanair.repository.FakeFiltersRepositoryImpl
+import com.example.ryanair.repository.DummyFiltersRepositoryImpl
 import com.example.ryanair.repository.MockStationsRepositoryImpl
 import com.example.ryanair.util.MainCoroutineRule
 import com.example.ryanair.util.MockResponseFileReader
@@ -26,12 +26,12 @@ class MainViewModelTest {
     var mainCoroutineRule = MainCoroutineRule()
 
     private val mockStationsRepository = MockStationsRepositoryImpl()
-    private val fakeFiltersRepositoryImpl = FakeFiltersRepositoryImpl()
+    private val dummyFiltersRepositoryImpl = DummyFiltersRepositoryImpl()
 
     @Test
     fun `provide MainViewModel with sample json file and check stations value`() = runTest {
         mockStationsRepository.reader = MockResponseFileReader("stations.json")
-        MainViewModel(fakeFiltersRepositoryImpl, mockStationsRepository).run {
+        MainViewModel(dummyFiltersRepositoryImpl, mockStationsRepository).run {
             advanceUntilIdle()
 
             stations.value.let { viewModelStations ->
@@ -56,7 +56,7 @@ class MainViewModelTest {
     fun `provide MainViewModel with fail json file and check stations value is null end error set`() =
         runTest {
             mockStationsRepository.reader = MockResponseFileReader("fail.json")
-            MainViewModel(fakeFiltersRepositoryImpl, mockStationsRepository).run {
+            MainViewModel(dummyFiltersRepositoryImpl, mockStationsRepository).run {
                 advanceUntilIdle()
 
                 MatcherAssert.assertThat( stations.value, `is`(nullValue()))
