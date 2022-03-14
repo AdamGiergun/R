@@ -40,10 +40,14 @@ class MainViewModel @Inject constructor(
     val filters = filtersRepository.filters.asLiveData(viewModelScope.coroutineContext)
 
     val defaultOriginPosition: Int
-        get() = getDefaultStationPosition(filters.value?.origin ?: DefaultFilters.value.origin)
+        get() = getDefaultStationPosition(
+            filters.value?.origin ?: DefaultFilters.value.origin
+        )
 
     val defaultDestinationPosition: Int
-        get() = getDefaultStationPosition(filters.value?.destination ?: DefaultFilters.value.destination)
+        get() = getDefaultStationPosition(
+            filters.value?.destination ?: DefaultFilters.value.destination
+        )
 
     private fun getDefaultStationPosition(searchedCode: String): Int {
         val element = simpleStationArray.first { it.code == searchedCode }
@@ -74,20 +78,21 @@ class MainViewModel @Inject constructor(
 
     fun initStations() = viewModelScope.launch {
         error = false
-        stationsRepository.run {
-            refresh()
-            this.let {
-                _errorText.value = this.errorText
-                this@MainViewModel.error = this.error
-                _stations.value = stations
-                simpleStationArray = stations?.map {
+        stationsRepository.let { sr ->
+            sr.refresh()
+            if (sr.error) {
+                _errorText.value = sr.errorText
+                this@MainViewModel.error = sr.error
+            } else {
+                _stations.value = sr.stations
+                simpleStationArray = sr.stations?.map { station ->
                     SimpleStation(
-                        "${it.countryName}, ${it.name}, ${it.code}",
-                        it.code
+                        "${station.countryName}, ${station.name}, ${station.code}",
+                        station.code
                     )
                 }?.sortedBy { it.fullName }?.toTypedArray() ?: emptyArray()
+                _stationsInitialized.value = true
             }
-            _stationsInitialized.value = true
         }
     }
 }

@@ -36,7 +36,6 @@ data class StationsContainer(
 
 fun StationsContainer.asDbModel(): List<Station> {
     val dbStations = mutableListOf<Station>()
-
     stations.forEach { stationJson ->
         dbStations.add(
             Station(

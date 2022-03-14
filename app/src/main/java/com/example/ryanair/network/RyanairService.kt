@@ -26,7 +26,7 @@ private val retrofitRoute = Retrofit.Builder()
 
 interface StationsApiService {
     @GET("stations.json")
-    suspend fun getAirports(): StationsContainer
+    suspend fun getStationsContainer(): StationsContainer
 }
 
 interface RouteApiService {
