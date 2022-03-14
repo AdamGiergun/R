@@ -1,5 +1,7 @@
 package com.example.ryanair.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.ryanair.db.Station
 import com.example.ryanair.network.RyanairApi
 import com.example.ryanair.network.asDbModel
@@ -7,24 +9,27 @@ import javax.inject.Inject
 
 class StationsRepositoryImpl @Inject constructor(): StationsRepository {
 
-    override var stations: List<Station>? = null
-        private set
+    private val _stations= MutableLiveData<List<Station>?>()
+    override val stations: LiveData<List<Station>?>
+        get() = _stations
 
-    override var errorText: String? = null
-        private set
+    private val _error= MutableLiveData<Boolean?>()
+    override val error: LiveData<Boolean?>
+        get() = _error
 
-    override var error = false
-        private set
+    private val _errorText = MutableLiveData<String?>()
+    override val errorText: LiveData<String?>
+        get() = _errorText
 
     override suspend fun refresh() {
         try {
-            stations = RyanairApi.retrofitStationsApiService.getStationsContainer().asDbModel()
-            errorText = null
-            error = false
+            _stations.value = RyanairApi.retrofitStationsApiService.getStationsContainer().asDbModel()
+            _errorText.value = null
+            _error.value = false
         } catch (e: Exception) {
-            stations = null
-            error = true
-            errorText = e.localizedMessage
+            _stations.value = null
+            _error.value = true
+            _errorText.value = e.localizedMessage
         }
     }
 }

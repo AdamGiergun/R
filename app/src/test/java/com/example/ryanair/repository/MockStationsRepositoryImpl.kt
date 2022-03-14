@@ -1,21 +1,26 @@
 package com.example.ryanair.repository
 
-import com.example.ryanair.util.MockResponseFileReader
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.ryanair.db.Station
 import com.example.ryanair.network.StationsContainer
 import com.example.ryanair.network.asDbModel
+import com.example.ryanair.util.MockResponseFileReader
 import com.squareup.moshi.Moshi
 
 class MockStationsRepositoryImpl : StationsRepository {
 
-    override lateinit var stations: List<Station>
-        private set
+    private val _stations = MutableLiveData<List<Station>?>()
+    override val stations: LiveData<List<Station>?>
+        get() = _stations
 
-    override var error = false
-        private set
+    private val _error = MutableLiveData<Boolean>()
+    override val error: LiveData<Boolean?>
+        get() = _error
 
-    override var errorText: String? = null
-        private set
+    private val _errorText = MutableLiveData<String?>()
+    override val errorText: LiveData<String?>
+        get() = _errorText
 
     lateinit var reader: MockResponseFileReader
 
@@ -23,12 +28,12 @@ class MockStationsRepositoryImpl : StationsRepository {
         try {
             val moshi: Moshi = Moshi.Builder().build()
             val adapter = moshi.adapter(StationsContainer::class.java)
-            stations = adapter.fromJson(reader.content)?.asDbModel() ?: emptyList()
-            errorText = null
-            error = false
+            _stations.value = adapter.fromJson(reader.content)?.asDbModel() ?: emptyList()
+            _errorText.value = null
+            _error.value = false
         } catch (e: Exception) {
-            errorText = e.localizedMessage
-            error = true
+            _errorText.value = e.localizedMessage
+            _error.value = true
         }
     }
 }

@@ -60,7 +60,7 @@ class MainViewModelTest {
                 advanceUntilIdle()
 
                 MatcherAssert.assertThat( stations.value, `is`(nullValue()))
-                MatcherAssert.assertThat(error, `is`(true))
+                MatcherAssert.assertThat(error.value, `is`(true))
             }
         }
 }

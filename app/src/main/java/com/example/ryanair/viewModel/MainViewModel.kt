@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ryanair.db.SimpleStation
-import com.example.ryanair.db.Station
 import com.example.ryanair.repository.FiltersRepository
 import com.example.ryanair.repository.StationsRepository
 import com.example.ryanair.util.DefaultFilters
@@ -21,20 +20,16 @@ class MainViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _stations = MutableLiveData<List<Station>?>(null)
-    val stations: LiveData<List<Station>?>
-        get() = _stations
+    val stations = stationsRepository.stations
 
     private lateinit var simpleStationArray: Array<SimpleStation>
 
     val stationsForSpinner
         get() = simpleStationArray.map { it.fullName }.toTypedArray()
 
-    var error = false
-        private set
-    private val _errorText = MutableLiveData<String>()
-    val errorText: LiveData<String>
-        get() = _errorText
+    val error = stationsRepository.error
+
+    val errorText = stationsRepository.errorText
 
     private val _text = MutableLiveData<String>()
     val text: LiveData<String>
@@ -80,15 +75,10 @@ class MainViewModel @Inject constructor(
         get() = _stationsInitialized
 
     fun initStations() = viewModelScope.launch {
-        error = false
         stationsRepository.let { sr ->
             sr.refresh()
-            if (sr.error) {
-                _errorText.value = sr.errorText
-                this@MainViewModel.error = sr.error
-            } else {
-                _stations.value = sr.stations
-                simpleStationArray = sr.stations?.map { station ->
+            if (sr.error.value != true) {
+                simpleStationArray = sr.stations.value?.map { station ->
                     SimpleStation(
                         "${station.countryName}, ${station.name}, ${station.code}",
                         station.code
