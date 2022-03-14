@@ -27,6 +27,6 @@ class MainActivityTest {
     fun test() = runTest(StandardTestDispatcher()) {
         activityScenarioRule.scenario
 
-        onView(withId(R.id.from)).check(matches(isDisplayed()))
+        onView(withId(R.id.loading_img)).check(matches(isDisplayed()))
     }
 }
