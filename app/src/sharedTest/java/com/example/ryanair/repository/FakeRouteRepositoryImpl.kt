@@ -3,14 +3,15 @@ package com.example.ryanair.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.ryanair.R
-import com.example.ryanair.util.MockResponseFileReader
 import com.example.ryanair.db.Filters
 import com.example.ryanair.db.Route
 import com.example.ryanair.network.RouteJson
 import com.example.ryanair.network.asDbModel
+import com.example.ryanair.util.MockResponseFileReader
 import com.squareup.moshi.Moshi
+import javax.inject.Inject
 
-class FakeRouteRepositoryImpl : RouteRepository {
+class FakeRouteRepositoryImpl @Inject constructor(): RouteRepository {
 
     private val _route = MutableLiveData<Route?>()
     override val route: LiveData<Route?>
