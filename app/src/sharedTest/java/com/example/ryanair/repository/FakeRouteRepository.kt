@@ -9,9 +9,8 @@ import com.example.ryanair.network.RouteJson
 import com.example.ryanair.network.asDbModel
 import com.example.ryanair.util.MockResponseFileReader
 import com.squareup.moshi.Moshi
-import javax.inject.Inject
 
-class FakeRouteRepositoryImpl @Inject constructor(): RouteRepository {
+abstract class FakeRouteRepository : RouteRepository {
 
     private val _route = MutableLiveData<Route?>()
     override val route: LiveData<Route?>
@@ -31,7 +30,7 @@ class FakeRouteRepositoryImpl @Inject constructor(): RouteRepository {
 
     override suspend fun refresh(newFilters: Filters?) {}
 
-    fun refresh(reader: MockResponseFileReader) {
+    fun refreshRoute(reader: MockResponseFileReader) {
         try {
             val moshi: Moshi = Moshi.Builder().build()
             val adapter = moshi.adapter(RouteJson::class.java)

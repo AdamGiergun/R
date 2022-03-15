@@ -18,14 +18,21 @@
         <TextView
             android:id="@+id/error_text"
             android:layout_width="match_parent"
-            android:textStyle="bold"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/filters_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.filters.toString()}"
+            android:textStyle="bold|italic" />
 
         <TextView
             android:id="@+id/route_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.route.toString()}"/>
+            android:text="@{viewModel.route.toString()}" />
 
     </LinearLayout>
 

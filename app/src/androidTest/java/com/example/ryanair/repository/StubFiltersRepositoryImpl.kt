@@ -3,8 +3,9 @@ package com.example.ryanair.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.ryanair.db.Filters
+import javax.inject.Inject
 
-class StubFiltersRepositoryImpl : FiltersRepository {
+class StubFiltersRepositoryImpl @Inject constructor(): FiltersRepository {
 
     override val filters: LiveData<Filters?> = liveData {
         emit(

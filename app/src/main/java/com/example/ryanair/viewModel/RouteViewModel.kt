@@ -1,5 +1,7 @@
 package com.example.ryanair.viewModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ryanair.db.Filters
@@ -23,14 +25,19 @@ class RouteViewModel @Inject constructor(
 
     val errorInfoId = routeRepository.errorInfoId
 
+    private val _filters = MutableLiveData<Filters?>()
+    val filters: LiveData<Filters?>
+        get() = _filters
+
     /**
     * There seems to be some problem with testing coroutines,
-     * therefore [filters] are passed with [refresh]
+     * therefore [newFilters] are passed with [refresh]
      * instead of using [FiltersRepository] in init
      */
-    fun refresh(filters: Filters) {
+    fun refresh(newFilters: Filters) {
+        _filters.value = newFilters
         viewModelScope.launch {
-            filters.run {
+            newFilters.run {
                 routeRepository.refresh(this)
             }
         }
