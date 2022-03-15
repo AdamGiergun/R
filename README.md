@@ -37,7 +37,7 @@ testable architecture, write many tests, clean code, and aim slowly towards the 
 
 ## Roadmap
 
-- [ ] KISS !!! (while your lips are still red) - (yes, I know, it's a bad joke, but, at least, with some nice message ;-)
+- [ ] KISS !!! (while your lips are still red) - (yes, I know, it's a bad joke here, but, at least, with some nice message ;-)
 - [ ] Tests !!!
 - [x] Parsing JSON file
 - [x] APIs for getting external data
