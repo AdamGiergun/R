@@ -1,7 +1,6 @@
 package com.example.ryanair.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.ryanair.repository.DummyFiltersRepositoryImpl
 import com.example.ryanair.repository.FakeRouteRepositoryImpl
 import com.example.ryanair.util.MainCoroutineRule
 import com.example.ryanair.util.MockResponseFileReader
@@ -28,7 +27,7 @@ class RouteViewModelTest {
     @Test
     fun `provide RouteViewModel with route json file and check route value`() =
         runTest {
-            fakeRouteRepositoryImpl.refresh(MockResponseFileReader("route.json"))
+            fakeRouteRepositoryImpl.refreshRoute(MockResponseFileReader("route.json"))
             RouteViewModel(fakeRouteRepositoryImpl).run {
                 advanceUntilIdle()
 
@@ -43,7 +42,7 @@ class RouteViewModelTest {
     @Test
     fun `provide RouteViewModel with fail json file and check route value is null and error set`() =
         runTest {
-            fakeRouteRepositoryImpl.refresh(MockResponseFileReader("fail.json"))
+            fakeRouteRepositoryImpl.refreshRoute(MockResponseFileReader("fail.json"))
             RouteViewModel(fakeRouteRepositoryImpl).run {
                 advanceUntilIdle()
 
