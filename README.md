@@ -38,8 +38,8 @@ testable architecture, write many tests, clean code, and aim slowly towards the 
 ## Roadmap
 
 - [ ] KISS !!! (while your lips are still red) - (yes, I know, it's a bad joke here, but, at least, with some nice message :kissing_smiling_eyes:)
-- [ ] Tests !!!
-- [ ] Documentation in code !!!
+- [ ] Write tests !!! (and rewrite some tests with Junit5)
+- [ ] Write documentation in code !!!
 - [x] Parsing JSON file
 - [x] APIs for getting external data (but some future changes considered)
 - [x] Data repositories
@@ -54,7 +54,7 @@ testable architecture, write many tests, clean code, and aim slowly towards the 
 - [ ] Completing the implementation of filter selectors
 - [ ] Strip down data classes to leave only necessary things
 - [ ] Implement Firebase
-- [ ] Another yet undisclosed possibilities
+- [ ] Another yet undisclosed options
 
 See the [open issues](https://github.com/AdamGiergun/R/issues) for a full list of
 proposed features (and known issues).
