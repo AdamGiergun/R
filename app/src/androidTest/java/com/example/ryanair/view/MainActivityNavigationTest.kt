@@ -45,7 +45,6 @@ class MainActivityNavigationTest {
                 .check(matches(isDisplayed()))
                 .check(matches(withText(startsWith("Route(termsOfUse"))))
 
-
             onView(withId(R.id.filters_text))
                 .check(matches(isDisplayed()))
                 .check(matches(withText(containsString("DUB"))))
