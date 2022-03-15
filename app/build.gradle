@@ -19,8 +19,7 @@ android {
         versionName "1.0"
 
         vectorDrawables.useSupportLibrary true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        //"com.example.ryanair.util.CustomTestRunner"
+        testInstrumentationRunner "com.example.ryanair.util.CustomTestRunner"
 
         kapt {
             arguments {
@@ -55,6 +54,16 @@ android {
             // Used for Unit testing Android dependent elements in /test folder
             includeAndroidResources = true
             returnDefaultValues = true
+        }
+    }
+
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
         }
     }
 }
