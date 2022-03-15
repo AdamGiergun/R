@@ -66,13 +66,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    init {
-        initStations()
-    }
-
     private val _stationsInitialized = MutableLiveData(false)
     val stationsInitialized: LiveData<Boolean>
         get() = _stationsInitialized
+
+    init {
+        initStations()
+    }
 
     fun initStations() = viewModelScope.launch {
         stationsRepository.let { sr ->
