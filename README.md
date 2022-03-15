@@ -37,24 +37,26 @@ testable architecture, write many tests, clean code, and aim slowly towards the 
 
 ## Roadmap
 
-- [ ] KISS !!! (while your lips are still red) - (yes, I know, it's a bad joke here, but, at least, with some nice message ;-)
+- [ ] KISS !!! (while your lips are still red) - (yes, I know, it's a bad joke here, but, at least, with some nice message :kissing_smiling_eyes:)
 - [ ] Tests !!!
+- [ ] Documentation in code !!!
 - [x] Parsing JSON file
-- [x] APIs for getting external data
+- [x] APIs for getting external data (but some future changes considered)
 - [x] Data repositories
 - [x] ViewModels
-- [ ] Bind data
+- [x] Bind data
 - [ ] App styling
 - [x] Navigation
 - [x] Dependency Injection with Hilt
-- [ ] Room database
+- [x] Room database
 - [ ] Caching some external data i.e. for the offline use
-- [ ] RecyclerView for Flights
+- [ ] RecyclerView(?) for Flights
 - [ ] Completing the implementation of filter selectors
 - [ ] Strip down data classes to leave only necessary things
 - [ ] Implement Firebase
+- [ ] Another yet undisclosed possibilities
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of
+See the [open issues](https://github.com/AdamGiergun/R/issues) for a full list of
 proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
