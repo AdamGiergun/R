@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RouteViewModel @Inject constructor(
-    private val routeRepository: RouteRepository,
+    routeRepository: RouteRepository,
     filtersRepository: FiltersRepository
 ) :
     ViewModel() {
