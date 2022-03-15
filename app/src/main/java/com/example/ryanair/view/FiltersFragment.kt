@@ -16,7 +16,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.ryanair.R
 import com.example.ryanair.databinding.FragmentFiltersBinding
 import com.example.ryanair.viewModel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FiltersFragment : Fragment(),
     AdapterView.OnItemSelectedListener {
 
@@ -36,7 +38,7 @@ class FiltersFragment : Fragment(),
             searchButton.setOnClickListener {
                 if (mainViewModel.error.value != true) {
                     findNavController().navigate(
-                        FiltersFragmentDirections.actionFiltersFragmentToRouteFragment()
+                        FiltersFragmentDirections.actionFiltersFragmentToRouteFragment(mainViewModel.filters.value)
                     )
                 }
             }

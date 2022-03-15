@@ -29,5 +29,9 @@
     <fragment
         android:id="@+id/routeFragment"
         android:name="com.example.ryanair.view.RouteFragment">
+        <argument
+            android:name="filters"
+            app:argType="com.example.ryanair.db.Filters"
+            app:nullable="true" />
     </fragment>
 </navigation>

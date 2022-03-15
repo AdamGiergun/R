@@ -23,34 +23,33 @@ class RouteViewModelTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    private val dummyFiltersRepositoryImpl = DummyFiltersRepositoryImpl()
     private val fakeRouteRepositoryImpl = FakeRouteRepositoryImpl()
 
-//    @Test
-//    fun `provide RouteViewModel with route json file and check route value`() =
-//        runTest {
-//            fakeRouteRepositoryImpl.refresh(MockResponseFileReader("route.json"))
-//            RouteViewModel(fakeRouteRepositoryImpl, dummyFiltersRepositoryImpl).run {
-//                advanceUntilIdle()
-//
-//                assertThat(
-//                    route.value,
-//                    `is`(CoreMatchers.notNullValue())
-//                )
-//                assertThat(route.value?.currency, `is`("PLN"))
-//            }
-//        }
-//
-//    @Test
-//    fun `provide RouteViewModel with fail json file and check route value is null and error set`() =
-//        runTest {
-//            fakeRouteRepositoryImpl.refresh(MockResponseFileReader("fail.json"))
-//            RouteViewModel(fakeRouteRepositoryImpl, dummyFiltersRepositoryImpl).run {
-//                advanceUntilIdle()
-//
-//                assertThat(route.value, `is`(CoreMatchers.nullValue()))
-//                assertThat(error.value, `is`(true))
-//                assertThat((errorText.value != null || errorInfoId.value != null), `is`(true))
-//            }
-//        }
+    @Test
+    fun `provide RouteViewModel with route json file and check route value`() =
+        runTest {
+            fakeRouteRepositoryImpl.refresh(MockResponseFileReader("route.json"))
+            RouteViewModel(fakeRouteRepositoryImpl).run {
+                advanceUntilIdle()
+
+                assertThat(
+                    route.value,
+                    `is`(CoreMatchers.notNullValue())
+                )
+                assertThat(route.value?.currency, `is`("PLN"))
+            }
+        }
+
+    @Test
+    fun `provide RouteViewModel with fail json file and check route value is null and error set`() =
+        runTest {
+            fakeRouteRepositoryImpl.refresh(MockResponseFileReader("fail.json"))
+            RouteViewModel(fakeRouteRepositoryImpl).run {
+                advanceUntilIdle()
+
+                assertThat(route.value, `is`(CoreMatchers.nullValue()))
+                assertThat(error.value, `is`(true))
+                assertThat((errorText.value != null || errorInfoId.value != null), `is`(true))
+            }
+        }
 }
